@@ -8,15 +8,22 @@
                  [org.clojure/clojurescript "1.7.122"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
                  [io.replikativ/konserve "0.3.0-beta2"]
+                 [prismatic/dommy "1.1.0"]
+                 [org.omcljs/om "0.9.0" :exclusions [cljsjs/react]]
                  [midje "1.6.3"]
+                 [sablono "0.3.6"]
                  [http-kit "2.1.18"]
                  [compojure "1.4.0"]]
   :profiles {:dev
              {:dependencies [[midje "1.6.3" :exclusions [org.clojure/clojure]]
+                             [org.omcljs/om "0.9.0" :exclusions [cljsjs/react]]
+                             [cljs-react-test "0.1.3-SNAPSHOT"]
+                             [cljsjs/react-with-addons "0.13.3-0"]
                              [org.clojure/tools.nrepl "0.2.11"]
                              [com.cemerick/piggieback "0.2.1"]]
               :plugins [[lein-midje "3.1.3"]
                         [lein-figwheel "0.4.1"]
+                        [cljs-react-test "0.1.3-SNAPSHOT"]
                         [lein-doo "0.1.5"]]
               :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
               :figwheel {:nrepl-port 7888}}}
