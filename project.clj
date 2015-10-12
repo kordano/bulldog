@@ -6,10 +6,12 @@
   :source-paths ["src/clj" "src/cljs"]
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.122"]
+                 [org.clojure/core.async "0.1.346.0-17112a-alpha"]
+                 [io.replikativ/konserve "0.3.0-beta2"]
                  [http-kit "2.1.18"]
                  [compojure "1.4.0"]]
   :profiles {:dev
-             {:dependencies [[midje "1.6.0" :exclusions [org.clojure/clojure]]
+             {:dependencies [[midje "1.6.3" :exclusions [org.clojure/clojure]]
                              [org.clojure/tools.nrepl "0.2.11"]
                              [com.cemerick/piggieback "0.2.1"]]
               :plugins [[lein-midje "3.1.3"]
