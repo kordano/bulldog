@@ -3,11 +3,12 @@
   :url "https://github.com/kordano/bulldog"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :source-paths ["src/clj" "src/cljs"]
+  :source-paths ["src/clj" "src/cljs" "test/clj" "test/cljs"]
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.122"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
                  [io.replikativ/konserve "0.3.0-beta2"]
+                 [midje "1.6.3"]
                  [http-kit "2.1.18"]
                  [compojure "1.4.0"]]
   :profiles {:dev

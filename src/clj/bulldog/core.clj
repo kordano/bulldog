@@ -10,52 +10,71 @@
 
 (defn now [] (new java.util.Date))
 
-(def state (atom {:server nil :store nil}))
-
-(def server (atom nil))
-
 (defn dispatch 
   "Reduces incoming actions"
-  [{:keys [store] :as state} {:keys [type meta data]}]
-  (case type
-    :set-articles (<!! (-assoc-in store [:articles] data))
-    :unrelated))
+  [store {:keys [type meta data]}]
+  (letfn [(set-articles [store data]
+            (<!! (-assoc-in store [:articles]
+                            (if (vector? data)
+                              data
+                              (vector data))))
+            (<!! (-get-in store [:articles])))
+          (add-article [store data]
+            (<!! (-update-in store [:articles]
+                             #(if (vector? data)
+                                (concat % data)
+                                (conj % data))))
+            (<!! (-get-in store [:articles])))]
+    (case type
+      :set-articles (set-articles store data)
+      :add-article (add-article store data)
+      :unrelated)))
 
-(defn socket-handler [request]
-  (with-channel request channel
-    (on-close channel (fn [status]))
-    (on-receive channel (fn [data]
-                          (let [action (read-string data)]
-                            (dispatch @state action))))))
+(defn create-socket-handler [state]
+  (fn [request]
+    (with-channel request channel
+      (on-close channel (fn [status]))
+      (on-receive channel (fn [data]
+                            (let [action (read-string data)]
+                              (dispatch (:store state) action)))))))
 
-(defroutes all-routes
-  (GET "/" [] (io/resource "public/index.html"))
-  (GET "/ws" [] socket-handler)
-  (route/not-found "<h1>Page not found</h1>"))
+(defn create-routes
+  "Create routes from server state"
+  [state]
+  (defroutes all-routes
+    (GET "/" [] (io/resource "public/index.html"))
+    (GET "/ws" [] (create-socket-handler state))
+    (route/not-found "<h1>Page not found</h1>")))
 
 (defn stop-server
-  "startAllServices"
+  "stops only server"
   [{:keys [server] :as state}]
   (when-not (nil? server)
     (server :timeout 100)
     (swap! state assoc :server nil)))
 
-(defn run [server]
-  (reset!
-   server
-   {:server (run-server #'all-routes {:port 8080})
-    :store (<!! (new-mem-store)) #_(<!! (new-fs-store "data"))}))
+(defn start-all-services
+  "startAllServices TM"
+  []
+  (let [state (atom {:server nil :store []})]
+    (create-routes state)
+    (reset!
+     state
+     {:server (run-server #'all-routes {:port 8080})
+      :store (<!! (new-mem-store)) #_(<!! (new-fs-store "data"))})
+    state))
 
-(defn -main [&args] (run server))
+(defn -main [&args]
+  (start-all-services))
 
 (comment
 
- (run server)
+  (def state (start-all-services))
+  
+  (swap! state assoc :store (<!! (new-mem-store)))
+  
+  (stop-server state)
 
- (stop-server server)
+  (-> state deref :store (-get-in [:articles]) <!!)
 
- (-> state deref :store (-get-in [:articles]) <!!)
- 
- (dispatch @state {:type :set-articles :data {:foo :bar}})
- 
- )
+)
