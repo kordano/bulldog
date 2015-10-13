@@ -20,6 +20,7 @@
                              [cljs-react-test "0.1.3-SNAPSHOT"]
                              [cljsjs/react-with-addons "0.13.3-0"]
                              [org.clojure/tools.nrepl "0.2.11"]
+                             [secretary "1.2.3"]
                              [com.cemerick/piggieback "0.2.1"]]
               :plugins [[lein-midje "3.1.3"]
                         [lein-figwheel "0.4.1"]
