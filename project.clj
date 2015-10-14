@@ -13,6 +13,7 @@
                  [compojure "1.4.0"]
                  [garden "1.3.0-SNAPSHOT"]
                  [prismatic/dommy "1.1.0"]
+                 [cljsjs/react "0.14.0-0"]
                  [org.omcljs/om "0.9.0"  :exclusions [cljsjs/react]]
                  [sablono "0.3.6"  :exclusions [cljsjs/react]]
                  [jarohen/chord "0.6.0"]
