@@ -35,7 +35,7 @@
   :plugins [[lein-cljsbuild "1.1.0"]]
   :hooks [leiningen.cljsbuild]
   :main bulldog.core
-  :uberjar-name "bulldog-standanlone.jar"
+  :uberjar-name "bulldog-standalone.jar"
   :jvm-opts ["-Djava.awt.headless=true"]
   :jar-exclusions [#"^.*/$"]
   :clean-targets ^{:protect false} ["resources/public/js"]
