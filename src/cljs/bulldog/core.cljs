@@ -11,8 +11,9 @@
             [sablono.core :as html :refer-macros [html]])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]])
   (:import goog.History))
-
 (enable-console-print!)
+
+(println "Greetings puny humans!")
 
 (defn now
   "Create current date"

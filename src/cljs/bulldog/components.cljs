@@ -24,12 +24,26 @@
      [:p.post-content (:content data)]])))
 
 
+
+
+(def url
+  )
+
+
+
 (defn front-view [app owner]
   (reify
       om/IDidMount
       (did-mount [_]
         (go
-          (let [{:keys [ws-channel error]} (<! (ws-ch "ws://localhost:8080/ws"))]
+          (let [uri (goog.Uri. js/location.href)
+                ssl? (= (.getScheme uri) "https")
+                socket-uri (str (if ssl?  "wss://" "ws://")
+                                (.getDomain uri)
+                                (when (= (.getDomain uri) "localhost")
+                                  (str ":" 8080 #_(.getPort uri)))
+                                "/ws")
+                {:keys [ws-channel error]} (<! (ws-ch socket-uri))]
             (if-not error
               (do
                 (om/transact! app :socket (fn [_] ws-channel) )
