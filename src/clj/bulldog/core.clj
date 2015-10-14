@@ -1,5 +1,5 @@
 (ns bulldog.core
-  (gen-class :main true)
+  (:gen-class :main true)
   (:require [konserve.filestore :refer [new-fs-store]]
             [konserve.memory :refer [new-mem-store]]
             [konserve.protocols :refer [-get-in -assoc-in -update-in -exists?]]
@@ -118,6 +118,5 @@
   
   (-> state deref :store (-get-in [:articles]) <!!)
 
-  (-> state deref)
-  
+ 
   )
