@@ -90,7 +90,7 @@
                      :store (<!! (new-mem-store)) #_(<!! (new-fs-store "data"))})]
     (create-routes @state)
     (-> state deref :store (-assoc-in [:articles] test-articles) <!!)
-    (swap! state assoc :server (run-server #'all-routes {:port 8080}))
+    (swap! state assoc :server (run-server #'all-routes {:port (or (System/getenv "PORT") 8080)}))
     state))
 
 (defn -main [& args]
