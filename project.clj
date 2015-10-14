@@ -37,7 +37,6 @@
               :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
               :figwheel {:nrepl-port 7888}}}
   :plugins [[lein-cljsbuild "1.1.0"]]
-  :prep-tasks ["compile" ["cljsbuild" "once" "release"]]
   :main bulldog.core
   :uberjar-name "bulldog-standalone.jar"
   :clean-targets ^{:protect false} ["resources/public/js"]
