@@ -1,0 +1,1 @@
+web: java $JVM_OPTS -cp target/bulldog-standalone.jar clojure.main -m bulldog.core
