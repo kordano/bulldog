@@ -17,6 +17,7 @@
                  [sablono "0.3.6"  :exclusions [cljsjs/react]]
                  [jarohen/chord "0.6.0"]
                  [secretary "1.2.3"]]
+  :min-lein-version "2.0.0"
   :profiles {:dev
              {:dependencies [[midje "1.6.3" :exclusions [org.clojure/clojure]]
                              [org.clojure/core.async "0.1.346.0-17112a-alpha"]
