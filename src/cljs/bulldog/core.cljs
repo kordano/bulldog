@@ -1,10 +1,8 @@
 (ns bulldog.core
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [hasch.core :refer [uuid]]
-            [bulldog.components :refer [article-list]]
+            [bulldog.components :refer [front-view post-view]]
             [dommy.core :as dommy :refer-macros [sel sel1]]
-            [chord.client :refer [ws-ch]]
             [cljs.core.async :refer [<! >! put! close!]]
             [secretary.core :as sec :refer-macros [defroute]]
             [goog.events :as events]
@@ -29,7 +27,7 @@
 
 (defroute "/" []
   (om/root
-   article-list
+   front-view
    app-state
    {:target (.getElementById js/document "app")}))
 
@@ -42,23 +40,16 @@
    {:target (.getElementById js/document "app")}))
 
 (defroute "/articles/:id" {:as params}
-  (js/console.log (str "Article: " (:id params))))
-
-
-(go
-  (let [{:keys [ws-channel error]} (<! (ws-ch "ws://localhost:8080/ws"))]
-    (if-not error
-      (do
-        (swap! app-state assoc-in [:socket] ws-channel)
-        (>! ws-channel {:type :init :data nil}))
-      (println "Channel error" error))
-    (println "Connecting...")
-    (go-loop [{:keys [message]} (<! ws-channel)]
-      (when message
-        (swap! app-state assoc-in [:articles] message)
-        (recur (<! ws-channel))))))
+  (go
+    (>! (:socket @app-state)
+          {:type :get-article
+           :data (:id params)})
+    (om/root
+     post-view
+     app-state
+     {:target (.getElementById js/document "app")})))
 
 (om/root
-   article-list
+   front-view
    app-state
    {:target (.getElementById js/document "app")})

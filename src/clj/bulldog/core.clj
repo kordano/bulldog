@@ -28,9 +28,12 @@
                 (<!! (-assoc-in store [:articles new-id] data))))
             (<!! (-get-in store [:articles])))
           (get-init [store]
-            (<!! (-get-in store [:articles])))
+            (->> (<!! (-get-in store [:articles]))
+                 (map (fn [[k v]] [k (dissoc v :content)]))
+                 (into {})
+                 (take 7)))
           (get-article [store data]
-            (<!! (-get-in store [:articles data])))]
+            (<!! (-get-in store [:articles (java.util.UUID/fromString data)])))]
     (assoc msg :data  
            (case type
              :init  (get-init store)
@@ -94,10 +97,12 @@
                                                   #uuid "eaf5ff82-3911-4dd6-96be-c283db3283d5"
                                                   {:title "replikativ"
                                                    :date #inst "2015-10-14T08:58:54.451-00:00"
+                                                   :content "blbablalba"
                                                    :abstract "Replication microservice based on Javascript and JVM"}
                                                   #uuid "a6d77d7f-8676-42c5-b57b-f407cc853659"
                                                   {:title "lese"
                                                    :date #inst "2015-10-14T08:59:19.233-00:00"
+                                                   :content "blbablalba"
                                                    :abstract "Bookmarking management and sharing"}})
       <!!)
   
