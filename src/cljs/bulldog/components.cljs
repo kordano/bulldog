@@ -23,14 +23,6 @@
      [:small.post-date (.toDateString (:date data))]
      [:p.post-content (:content data)]])))
 
-
-
-
-(def url
-  )
-
-
-
 (defn front-view [app owner]
   (reify
       om/IDidMount
