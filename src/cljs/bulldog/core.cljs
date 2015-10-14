@@ -48,8 +48,3 @@
      post-view
      app-state
      {:target (.getElementById js/document "app")})))
-
-(om/root
-   front-view
-   app-state
-   {:target (.getElementById js/document "app")})

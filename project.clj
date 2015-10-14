@@ -12,6 +12,7 @@
                  [prismatic/dommy "1.1.0"]
                  [org.omcljs/om "0.9.0" :exclusions [cljsjs/react]]
                  [midje "1.6.3"]
+                 [garden "1.3.0-SNAPSHOT"]
                  [sablono "0.3.6"]
                  [http-kit "2.1.18"]
                  [compojure "1.4.0"]]
@@ -32,7 +33,11 @@
               :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
               :figwheel {:nrepl-port 7888}}}
   :plugins [[lein-cljsbuild "1.1.0"]]
+  :hooks [leiningen.cljsbuild]
   :main bulldog.core
+  :uberjar-name "bulldog-standanlone.jar"
+  :jvm-opts ["-Djava.awt.headless=true"]
+  :jar-exclusions [#"^.*/$"]
   :clean-targets ^{:protect false} ["resources/public/js"]
   :cljsbuild {:builds
               {:dev
@@ -51,7 +56,7 @@
                :prod
                {:source-paths ["src/cljs"]
                 :compiler {:main bulldog.core
-                           :output-to "resources/public/js/bulldog.js"
+                           :output-to "resources/public/js/main.js"
                            :cache-analysis true
                            :optimizations :advanced}}}}
   

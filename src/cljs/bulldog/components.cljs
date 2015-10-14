@@ -57,9 +57,6 @@
 
 (defn post-view [app owner]
   (reify
-      om/IDidMount
-      (did-mount [state]
-        )
       om/IRender
       (render [state]
         (om/build post (:current-article app)))))
