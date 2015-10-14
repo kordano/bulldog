@@ -1,1 +1,1 @@
-web: java $JVM_OPTS -cp target/bulldog-standalone.jar clojure.main -m bulldog.core
+web: lein run -m bulldog.core
