@@ -48,3 +48,12 @@
      post-view
      app-state
      {:target (.getElementById js/document "app")})))
+
+(defn main []
+  (-> js/document
+      .-location
+      (set! "#/")))
+
+(-> js/document
+      .-location
+      (set! "#/"))

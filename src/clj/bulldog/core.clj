@@ -84,7 +84,7 @@
     (swap! state assoc :server nil)))
 
 (defn start-all-services
-  "startAllServices TM"
+  "startAllServices™"
   []
   (let [state (atom {:server nil
                      :store (<!! (new-mem-store)) #_(<!! (new-fs-store "data"))})]

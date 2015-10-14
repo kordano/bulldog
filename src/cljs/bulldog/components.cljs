@@ -16,7 +16,6 @@
 
 
 (defn post [data]
-  (println data)
   (om/component
    (html
     [:div.post-view
