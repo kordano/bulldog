@@ -1,10 +1,10 @@
 (ns bulldog.components
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [cljs.core.async :refer [<! >! put! close!]]
-            [chord.client :refer [ws-ch]]
+            [cljs.core.async :refer [<! >!]]
+            [bulldog.helpers :refer [handle-text-change open-channel]]
             [sablono.core :as html :refer-macros [html]])
-  (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
+  (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (defn article [data]
   (om/component
@@ -26,30 +26,9 @@
 (defn front-view [app owner]
   (reify
       om/IDidMount
-      (did-mount [_]
-        (go
-          (let [uri (goog.Uri. js/location.href)
-                ssl? (= (.getScheme uri) "https")
-                socket-uri (str (if ssl?  "wss://" "ws://")
-                                (.getDomain uri)
-                                (when (= (.getDomain uri) "localhost")
-                                  (str ":" 8080 #_(.getPort uri)))
-                                "/ws")
-                {:keys [ws-channel error]} (<! (ws-ch socket-uri))]
-            (if-not error
-              (do
-                (om/transact! app :socket (fn [_] ws-channel) )
-                (>! ws-channel {:type :init :data nil})
-                (go-loop [{{:keys [type meta data] :as message} :message err :error} (<! ws-channel)]
-                  (if-not err
-                    (when message
-                      (case type
-                        :init (om/transact! app :articles (fn [_] data))
-                        :get-article (om/transact! app :current-article (fn [_] data))
-                        :unrelated)
-                      (recur (<! ws-channel)))
-                    (println "Channel error on response"))))
-              (println "Channel error on open" error)))))
+    (did-mount [_]
+      (when-not (:socket app)
+        (open-channel app)))
       om/IRender
       (render [_]
         (let [recent-articles (->> (:articles app)
@@ -70,26 +49,72 @@
   "Creates login view"
   [app owner]
   (reify
-      om/IRender
-    (render [state]
+      om/IInitState
+    (init-state [_]
+      {:login-text ""})
+      om/IRenderState
+    (render-state [_ state]
       (html
        [:div#login-container
         [:h2 "Login"]
-        [:input {:type "password" :placeholder "password required"}]
-        [:button {:onclick (fn [e] (.log js/console "Clicked"))} "Login"]]))))
+        [:input {:type "password"
+                 :placeholder "password required"
+                 :value (:login-text state)
+                 :on-change #(handle-text-change % owner :login-text)}]
+        [:button {:onClick 
+                  #(go
+                    (>! (:socket app)
+                        {:type :login :data (om/get-state owner :login-text)})
+                    (om/set-state! owner :login-text ""))}
+         "Login"]]))))
 
-
-(defn composer-view 
+(defn compose-view 
   "Creates compose view, request admin password and shows textarea for new article"
   [app owner]
   (reify
-      om/IRender
-    (render [state]
-      (if (:admin? app)
-        (html
-         [:div#compose-container
-          [:h2 "Composer"]
-          [:input {:type "text" :placeholder "Title"}]
-          [:textarea {:col 50 :row 4}] ; set resize in css
-          ])
-        (om/build login-view app)))))
+      om/IInitState
+      (init-state [_]
+        {:title-text ""
+         :abstract-text ""
+         :markdown-text ""})
+      om/IDidMount
+      (did-mount [_]
+        (when-not (:socket app)
+          (open-channel app)))
+      om/IRenderState
+      (render-state [_ state]
+        (if (:admin? app)
+          (html
+           [:div#compose-container
+            [:h2 "Compose new article"]
+            [:input {:type "text"
+                     :placeholder "Title"
+                     :value (:title-text state)
+                     :on-change #(handle-text-change % owner :title-text)}]
+            [:input {:type "text"
+                     :placeholder "Abstract"
+                     :value (:abstract-text state)
+                     :on-change #(handle-text-change % owner :abstract-text)}]
+            [:textarea {:cols 50
+                        :row 4
+                        :placeholder "Write your article in Markdown"
+                        :value (:markdown-text state)
+                        :on-change #(handle-text-change % owner :markdown-text)}]
+            [:button {:onClick (fn [e]
+                                 (om/set-state! owner :title-text "")
+                                 (om/set-state! owner :abstract-text "")
+                                 (om/set-state! owner :markdown-text "")) }
+             "Discard"]
+            [:button {:onClick
+                      #(go
+                         (>! (:socket app)
+                             {:type :add-article :data {:title (om/get-state owner :title-text)
+                                                        :date (js/Date.)
+                                                        :abstract (om/get-state owner :abstract-text)
+                                                        :content (om/get-state owner :markdown-text)}})
+                         (om/set-state! owner :title-text "")
+                         (om/set-state! owner :abstract-text "")
+                         (om/set-state! owner :markdown-text ""))}
+             "Publish"]])
+          (om/build login-view app)))))
+

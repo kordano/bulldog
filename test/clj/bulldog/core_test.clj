@@ -26,4 +26,9 @@
                (-> (dispatch store {:type :add-article :data [{:bar :baz}]})
                    :data
                    vals)
-               => [{:foo :bar} {:bar :baz}])))
+               => [{:foo :bar} {:bar :baz}])
+         (fact "login checks password"
+               (let [_ (-assoc-in store [:admin :password] "foo")])
+               (-> (dispatch store {:type :login :data "foo"})
+                   :data)
+               => true)))

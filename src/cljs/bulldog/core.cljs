@@ -1,15 +1,14 @@
 (ns bulldog.core
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [bulldog.components :refer [front-view post-view composer-view login-view]]
-            [dommy.core :as dommy :refer-macros [sel sel1]]
-            [cljs.core.async :refer [<! >! put! close!]]
+            [bulldog.components :refer [front-view post-view compose-view login-view]]
+            [bulldog.helpers :refer [open-channel]]
             [secretary.core :as sec :refer-macros [defroute]]
             [goog.events :as events]
             [goog.history.EventType :as EventType]
-            [cljs.core.async :refer [<!]]
+            [cljs.core.async :refer [<! >!]]
             [sablono.core :as html :refer-macros [html]])
-  (:require-macros [cljs.core.async.macros :refer [go go-loop]])
+  (:require-macros [cljs.core.async.macros :refer [go]])
   (:import goog.History))
 
 (enable-console-print!)
@@ -21,7 +20,7 @@
   []
   (js/Date.))
 
-(def app-state (atom {:admin? false}))
+(def app-state (atom {}))
 
 (let [h (History.)]
   (goog.events/listen h EventType/NAVIGATE #(-> % .-token sec/dispatch!))
@@ -44,7 +43,7 @@
 
 (defroute "/compose" []
   (om/root
-   composer-view
+   compose-view
    app-state
    {:target (.getElementById js/document "app")}))
 

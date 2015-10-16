@@ -50,13 +50,16 @@
                  (into {})
                  (take 7)))
           (get-article [store data]
-            (<!! (-get-in store [:articles (java.util.UUID/fromString data)])))]
+            (<!! (-get-in store [:articles (java.util.UUID/fromString data)])))
+          (login [store data]
+            (= data (<!! (-get-in store [:admin :password]))))]
     (assoc msg :data  
            (case type
              :init  (get-init store)
              :set-articles (set-articles store data)
              :add-article (add-article store data)
              :get-article (get-article store data)
+             :login (login store data)
              :unrelated))))
 
 (defn create-socket-handler [state]
@@ -85,12 +88,13 @@
 
 (defn start-all-services
   "startAllServices™"
-  [port]
+  [port pw]
   (let [state (atom {:server nil
                      :store (<!! (new-mem-store)) #_(<!! (new-fs-store "data"))})]
     (create-routes @state)
     (-> state deref :store (-assoc-in [:articles] test-articles) <!!)
-    (swap! state assoc :server (run-server #'all-routes {:port port }))
+    (-> state deref :store (-assoc-in [:admin :password] pw) <!!)
+    (swap! state assoc :server (run-server #'all-routes {:port port}))
     state))
 
 (defn -main [& args]
@@ -99,14 +103,23 @@
 
 (comment
   
-  (def state (start-all-services))
+  (def state (start-all-services 8080 "test"))
   
   #_(def state (atom {}))
   
   (swap! state assoc :store (<!! (new-mem-store)))
   
   (stop-server @state)
-
+  
+  (-> state
+      deref
+      :store
+      (-assoc-in
+       [:admin :password]
+       "test"
+       )
+      <!!)
+  
   (-> state
       deref
       :store
@@ -118,5 +131,6 @@
   
   (-> state deref :store (-get-in [:articles]) <!! vals)
 
+  (-> state deref :store (-get-in [:admin]) <!!)
  
   )
