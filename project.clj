@@ -3,7 +3,7 @@
   :url "https://github.com/kordano/bulldog"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :source-paths ["src/clj" "src/cljs"]
+  :source-paths ["src/clj" "src/cljs" "test/clj"]
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.122"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
@@ -37,7 +37,7 @@
               :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
               :figwheel {:nrepl-port 7888}}}
   :plugins [[lein-cljsbuild "1.1.0"]]
-  :prep-tasks ["compile" ["cljsbuild" "once" "release"]]
+  ;:prep-tasks ["compile" ["cljsbuild" "once" "release"]]
   :main bulldog.core
   :uberjar-name "bulldog-standalone.jar"
   :clean-targets ^{:protect false} ["resources/public/js"]

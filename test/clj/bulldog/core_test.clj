@@ -8,17 +8,22 @@
 
 
 
-(facts "about action reducer"
-       (fact "set-articles sets all articles consumed as vector or single value"
-             (let [store (<!! (new-mem-store))]
-               (dispatch store {:type :set-articles :data {:foo :bar}})
-               => [{:foo :bar}]
-               (dispatch store {:type :set-articles :data [{:foo :bar} {:bar :baz}]})
+(facts "action reducer"
+       (let [store (<!! (new-mem-store))]
+         (fact "set-articles sets all articles consumed as single value"
+               (:data (dispatch store {:type :set-articles :data {:foo :bar}}))
+               => [{:foo :bar}])
+         (fact "set-articles sets all articles consumed as a vector"
+               (:data (dispatch store {:type :set-articles :data [{:foo :bar} {:bar :baz}]}))
                => [{:foo :bar} {:bar :baz}]))
-       (fact "add-article joins a vector of articles or single value"
-             (let [store (<!! (new-mem-store))]
-               (dispatch store {:type :add-article :data {:foo :bar}})
-               => [{:foo :bar}]
-               (dispatch store {:type :add-article :data [{:bar :baz}]})
-               => [{:foo :bar} {:bar :baz}]
-               )))
+       (let [store (<!! (new-mem-store))]
+         (fact "add-article adds single value"
+               (-> (dispatch store {:type :add-article :data {:foo :bar}})
+                   :data
+                   vals)
+               => [{:foo :bar}])
+         (fact "add-article adds a vector"
+               (-> (dispatch store {:type :add-article :data [{:bar :baz}]})
+                   :data
+                   vals)
+               => [{:foo :bar} {:bar :baz}])))

@@ -1,7 +1,7 @@
 (ns bulldog.core
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [bulldog.components :refer [front-view post-view]]
+            [bulldog.components :refer [front-view post-view composer-view login-view]]
             [dommy.core :as dommy :refer-macros [sel sel1]]
             [cljs.core.async :refer [<! >! put! close!]]
             [secretary.core :as sec :refer-macros [defroute]]
@@ -21,7 +21,7 @@
   []
   (js/Date.))
 
-(def app-state (atom {}))
+(def app-state (atom {:admin? false}))
 
 (let [h (History.)]
   (goog.events/listen h EventType/NAVIGATE #(-> % .-token sec/dispatch!))
@@ -41,6 +41,14 @@
    app-state
    {:target (.getElementById js/document "app")}))
 
+
+(defroute "/compose" []
+  (om/root
+   composer-view
+   app-state
+   {:target (.getElementById js/document "app")}))
+
+
 (defroute "/articles/:id" {:as params}
   (go
     (>! (:socket @app-state)
@@ -56,6 +64,6 @@
       .-location
       (set! "#/")))
 
-(-> js/document
+#_(-> js/document
       .-location
       (set! "#/"))

@@ -65,3 +65,31 @@
       om/IRender
       (render [state]
         (om/build post (:current-article app)))))
+
+(defn login-view
+  "Creates login view"
+  [app owner]
+  (reify
+      om/IRender
+    (render [state]
+      (html
+       [:div#login-container
+        [:h2 "Login"]
+        [:input {:type "password" :placeholder "password required"}]
+        [:button {:onclick (fn [e] (.log js/console "Clicked"))} "Login"]]))))
+
+
+(defn composer-view 
+  "Creates compose view, request admin password and shows textarea for new article"
+  [app owner]
+  (reify
+      om/IRender
+    (render [state]
+      (if (:admin? app)
+        (html
+         [:div#compose-container
+          [:h2 "Composer"]
+          [:input {:type "text" :placeholder "Title"}]
+          [:textarea {:col 50 :row 4}] ; set resize in css
+          ])
+        (om/build login-view app)))))

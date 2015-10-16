@@ -40,7 +40,7 @@
             (<!! (-get-in store [:articles])))
           (add-article [store data]
             (if (vector? data)
-              (map (partial add-article store) data)
+              (doall (map (partial add-article store) data))
               (let [new-id (uuid)]
                 (<!! (-assoc-in store [:articles new-id] data))))
             (<!! (-get-in store [:articles])))
@@ -85,23 +85,20 @@
 
 (defn start-all-services
   "startAllServices™"
-  []
+  [port]
   (let [state (atom {:server nil
                      :store (<!! (new-mem-store)) #_(<!! (new-fs-store "data"))})]
     (create-routes @state)
     (-> state deref :store (-assoc-in [:articles] test-articles) <!!)
-    (swap! state assoc :server (run-server #'all-routes
-                                           {:port (or
-                                                   (Integer/parseInt (System/getenv "PORT"))
-                                                   8080)}))
+    (swap! state assoc :server (run-server #'all-routes {:port port }))
     state))
 
 (defn -main [& args]
-  (start-all-services)
+  (start-all-services (or (Integer/parseInt (System/getenv "PORT")) 8080))
   (println "Server startet at localhost:8080"))
 
 (comment
-
+  
   (def state (start-all-services))
   
   #_(def state (atom {}))
@@ -119,7 +116,7 @@
        )
       <!!)
   
-  (-> state deref :store (-get-in [:articles]) <!!)
+  (-> state deref :store (-get-in [:articles]) <!! vals)
 
  
   )

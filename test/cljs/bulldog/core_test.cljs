@@ -7,6 +7,3 @@
             [dommy.core :as dommy :refer-macros [sel1 sel]]))
 
 (enable-console-print!)
-
-(testing "addition"
-  (is (= 42 (+ 9 10 11 12))))
