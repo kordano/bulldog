@@ -36,7 +36,7 @@
   (om/root
    (fn [_ _]
      (om/component
-      (dom/h1 nil "About")))
+      (dom/h1 #js {:className "header"} "About")))
    app-state
    {:target (.getElementById js/document "app")}))
 

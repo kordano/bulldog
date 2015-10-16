@@ -19,7 +19,7 @@
   (om/component
    (html
     [:div.post-view
-     [:h2.post-title (:title data)]
+     [:h2.header (:title data)]
      [:small.post-date (.toDateString (:date data))]
      [:p.post-content (:content data)]])))
 
@@ -33,7 +33,7 @@
       (render [_]
         (let [recent-articles (->> (:articles app)
                                    (map (fn [[k v]] (assoc v :id (str k))))
-                                   (sort-by :date <)
+                                   (sort-by :date >)
                                    (take 10))]
           (html
            [:ul#article-list
@@ -56,7 +56,7 @@
     (render-state [_ state]
       (html
        [:div#login-container
-        [:h2 "Login"]
+        [:h2.header "Login"]
         [:input {:type "password"
                  :placeholder "password required"
                  :value (:login-text state)
@@ -117,4 +117,3 @@
                          (om/set-state! owner :markdown-text ""))}
              "Publish"]])
           (om/build login-view app)))))
-
