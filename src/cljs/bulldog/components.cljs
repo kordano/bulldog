@@ -3,6 +3,7 @@
             [om.dom :as dom :include-macros true]
             [cljs.core.async :refer [<! >!]]
             [bulldog.helpers :refer [handle-text-change open-channel]]
+            [markdown.core :refer [md->html]]
             [sablono.core :as html :refer-macros [html]])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
@@ -21,7 +22,7 @@
     [:div.post-view
      [:h2.header (:title data)]
      [:small.post-date (.toDateString (:date data))]
-     [:p.post-content (:content data)]])))
+     [:p.post-content {:dangerouslySetInnerHTML {:__html (md->html (:content data))}}]])))
 
 (defn front-view [app owner]
   (reify

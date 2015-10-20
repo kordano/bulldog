@@ -13,7 +13,8 @@
                  [compojure "1.4.0"]
                  [garden "1.3.0-SNAPSHOT"]
                  [prismatic/dommy "1.1.0"]
-                 [cljsjs/react "0.14.0-0"]
+                 [cljsjs/react "0.13.3-0"]
+                 [markdown-clj "0.9.75"]
                  [org.omcljs/om "0.9.0"  :exclusions [cljsjs/react]]
                  [sablono "0.3.6"  :exclusions [cljsjs/react]]
                  [jarohen/chord "0.6.0"]
@@ -21,14 +22,10 @@
   :min-lein-version "2.0.0"
   :profiles {:dev
              {:dependencies [[midje "1.6.3" :exclusions [org.clojure/clojure]]
-                             [org.clojure/core.async "0.1.346.0-17112a-alpha"]
                              [midje "1.6.3"]
-                             [org.omcljs/om "0.9.0" :exclusions [cljsjs/react]]
                              [cljs-react-test "0.1.3-SNAPSHOT"]
                              [cljsjs/react-with-addons "0.13.3-0"]
                              [org.clojure/tools.nrepl "0.2.11"]
-                             [secretary "1.2.3"]
-                             [jarohen/chord "0.6.0"]
                              [com.cemerick/piggieback "0.2.1"]]
               :plugins [[lein-midje "3.1.3"]
                         [lein-figwheel "0.4.1"]
@@ -40,7 +37,7 @@
   ;:prep-tasks ["compile" ["cljsbuild" "once" "release"]]
   :main bulldog.core
   :uberjar-name "bulldog-standalone.jar"
-  :clean-targets ^{:protect false} ["resources/public/js"]
+  :clean-targets ^{:protect false} ["resources/public/js" "target" "out"]
   :cljsbuild {:builds
               {:dev
                {:source-paths ["src/cljs"]
