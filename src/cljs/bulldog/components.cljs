@@ -61,7 +61,7 @@
                         {:type :login :data (om/get-state owner :login-text)})
                     (om/set-state! owner :login-text "")))]
           (html
-           [:div#login-container
+           [:div#login-container.container
             [:h2.header "Login"]
             [:input {:type "password"
                      :placeholder "password required"
@@ -90,7 +90,7 @@
       (render-state [_ state]
         (if (:admin? app)
           (html
-           [:div#compose-container
+           [:div#compose-container.container
             [:h2.header "Compose new Article"]
             [:input#compose-title-input.compose-input
              {:type "text"
