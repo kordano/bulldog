@@ -35,7 +35,7 @@
               :figwheel {:nrepl-port 7888
                          :css-dirs ["resources/public"]}}}
   :plugins [[lein-cljsbuild "1.1.0"]]
-  ;:prep-tasks ["compile" ["cljsbuild" "once" "release"]]
+  :prep-tasks ["compile" ["cljsbuild" "once" "release"]]
   :main bulldog.core
   :uberjar-name "bulldog-standalone.jar"
   :clean-targets ^{:protect false} ["resources/public/js" "target" "out"]
