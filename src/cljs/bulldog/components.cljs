@@ -51,23 +51,27 @@
   [app owner]
   (reify
       om/IInitState
-    (init-state [_]
-      {:login-text ""})
+      (init-state [_]
+        {:login-text ""})
       om/IRenderState
-    (render-state [_ state]
-      (html
-       [:div#login-container
-        [:h2.header "Login"]
-        [:input {:type "password"
-                 :placeholder "password required"
-                 :value (:login-text state)
-                 :on-change #(handle-text-change % owner :login-text)}]
-        [:button {:onClick 
-                  #(go
+      (render-state [_ state]
+        (letfn [(send-login [app owner]
+                  (go
                     (>! (:socket app)
                         {:type :login :data (om/get-state owner :login-text)})
-                    (om/set-state! owner :login-text ""))}
-         "Login"]]))))
+                    (om/set-state! owner :login-text "")))]
+          (html
+           [:div#login-container
+            [:h2.header "Login"]
+            [:input {:type "password"
+                     :placeholder "password required"
+                     :value (:login-text state)
+                     :on-key-down (fn [e] (when (= (.-keyCode e) 13)
+                                            (send-login app owner)))
+                     :on-change #(handle-text-change % owner :login-text)}]
+            [:button {:onClick #(send-login app owner)}
+             "Login"]])))))
+
 
 (defn compose-view 
   "Creates compose view, request admin password and shows textarea for new article"
@@ -87,34 +91,41 @@
         (if (:admin? app)
           (html
            [:div#compose-container
-            [:h2 "Compose new article"]
-            [:input {:type "text"
-                     :placeholder "Title"
-                     :value (:title-text state)
-                     :on-change #(handle-text-change % owner :title-text)}]
-            [:input {:type "text"
-                     :placeholder "Abstract"
-                     :value (:abstract-text state)
-                     :on-change #(handle-text-change % owner :abstract-text)}]
-            [:textarea {:cols 50
-                        :row 4
-                        :placeholder "Write your article in Markdown"
-                        :value (:markdown-text state)
-                        :on-change #(handle-text-change % owner :markdown-text)}]
-            [:button {:onClick (fn [e]
-                                 (om/set-state! owner :title-text "")
-                                 (om/set-state! owner :abstract-text "")
-                                 (om/set-state! owner :markdown-text "")) }
-             "Discard"]
-            [:button {:onClick
-                      #(go
-                         (>! (:socket app)
-                             {:type :add-article :data {:title (om/get-state owner :title-text)
-                                                        :date (js/Date.)
-                                                        :abstract (om/get-state owner :abstract-text)
-                                                        :content (om/get-state owner :markdown-text)}})
+            [:h2.header "Compose new Article"]
+            [:input#compose-title-input.compose-input
+             {:type "text"
+              :placeholder "Give a Title"
+              :value (:title-text state)
+              :on-change #(handle-text-change % owner :title-text)}]
+            [:input#compose-abstract-input.compose-input
+             {:type "text"
+              :placeholder "Write a short overview"
+              :value (:abstract-text state)
+              :on-change #(handle-text-change % owner :abstract-text)}]
+            [:textarea#compose-markdown-input.compose-input
+             {:cols 50
+              :row 4
+              :placeholder "Compose your article by using Markdown"
+              :value (:markdown-text state)
+              :on-change #(handle-text-change % owner :markdown-text)}]
+            [:button#compose-discard-btn.cancel-btn
+             {:onClick (fn [e]
                          (om/set-state! owner :title-text "")
                          (om/set-state! owner :abstract-text "")
-                         (om/set-state! owner :markdown-text ""))}
+                         (om/set-state! owner :markdown-text "")
+                         (-> js/document .-location (set! "#/")))}
+             "Discard"]
+            [:button#compose-publish-btn.ok-btn
+             {:onClick
+              #(go
+                 (>! (:socket app)
+                     {:type :add-article :data {:title (om/get-state owner :title-text)
+                                                :date (js/Date.)
+                                                :abstract (om/get-state owner :abstract-text)
+                                                :content (om/get-state owner :markdown-text)}})
+                 (om/set-state! owner :title-text "")
+                 (om/set-state! owner :abstract-text "")
+                 (om/set-state! owner :markdown-text "")
+                 (-> js/document .-location (set! "#/")))}
              "Publish"]])
           (om/build login-view app)))))

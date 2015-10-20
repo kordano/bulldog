@@ -63,6 +63,6 @@
       .-location
       (set! "#/")))
 
-#_(-> js/document
+(-> js/document
       .-location
       (set! "#/"))

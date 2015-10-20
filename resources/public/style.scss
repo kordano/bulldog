@@ -15,8 +15,13 @@
 $light-grey: #a4a4a4;
 $green0: #38a861;
 $dark-grey: #666666;
+$background-color:#FBFAF4 ; /* #ffffff */
+$red0: #B03B44;
+$btn-color: #ffffff;
 
-body{
+html,body{
+    background: $background-color;
+    height: 100%;
     margin: 0;
     font-family: 'Lato', sans-serif;
     font-size: large;
@@ -24,10 +29,12 @@ body{
     padding: 0;
 }
 #main-container{
+    height: 100%;
     display: flex;
     flex-direction: column;
     flex: 1 100%;
     margin: 0;
+    padding: 0;
 }
 
 #app{
@@ -35,6 +42,7 @@ body{
     flex-direction: column;
     justify-content: center;
     margin: 0 28.65% 0 28.65%;
+    height: 100%;
 }
 
 /* NAV */
@@ -165,4 +173,68 @@ a:hover{
     .post-content{
 	margin: 0;
     }
+}
+
+/* COMPOSE */
+#compose-container{
+    height: 100%;
+}
+.compose-input {
+    background: $background-color;
+    border-style: none;
+    border-color: inherit;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    width: 100%;
+    margin: 2.5%;
+    &:focus{
+        color: $green0;
+    }
+}
+
+#compose-title-input {
+    font-size: 1.5em;
+}
+
+#compose-abstract-input{
+    font-size: 1.2em;
+}
+
+#compose-markdown-input{
+    font-size: 1.2em;
+    resize: none;
+    height: 50%;
+}
+
+.ok-btn {
+    font-size: 1.2em;
+    border-radius: 5px;
+    color: white;
+    background: $green0;
+    border-style: none;
+    border-color: inherit;
+    margin: 10px;
+    &:hover {
+        background: lighten($green0, 15%);
+    }
+}
+.cancel-btn {
+    font-size: 1.2em;
+    border-radius: 5px;
+    color: white;
+    background: $red0;
+    border-style: none;
+    border-color: inherit;
+    margin: 10px;
+    &:hover {
+        background: lighten($red0, 15%);
+    }
+}
+
+/*Post View*/
+
+.post-view {
+    margin: 0;
+    padding: 0;
+    height: 100%;
 }

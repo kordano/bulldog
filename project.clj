@@ -32,7 +32,8 @@
                         [cljs-react-test "0.1.3-SNAPSHOT"]
                         [lein-doo "0.1.5"]]
               :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
-              :figwheel {:nrepl-port 7888}}}
+              :figwheel {:nrepl-port 7888
+                         :css-dirs ["resources/public"]}}}
   :plugins [[lein-cljsbuild "1.1.0"]]
   ;:prep-tasks ["compile" ["cljsbuild" "once" "release"]]
   :main bulldog.core
