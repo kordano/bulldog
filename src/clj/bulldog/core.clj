@@ -98,7 +98,7 @@
     state))
 
 (defn -main [& args]
-  (start-all-services (or (Integer/parseInt (System/getenv "PORT")) 8080))
+  (start-all-services (or (Integer/parseInt (System/getenv "PORT")) 8080) "bamboozle")
   (println "Server startet at localhost:8080"))
 
 (comment
