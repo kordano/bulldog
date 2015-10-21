@@ -19,7 +19,7 @@
   (om/component
    (html
     [:div.post-view
-     [:h2.header (:title data)]
+     [:h1.header (:title data)]
      [:small.post-date (.toDateString (:date data))]
      [:p.post-content (:content data)]])))
 
