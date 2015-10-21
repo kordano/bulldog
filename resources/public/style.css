@@ -7,6 +7,9 @@
 @font-face {
   font-family: RobotoMedium;
   src: url(fonts/Roboto-Medium.ttf); }
+@font-face {
+  font-family: LeagueGothicRegular;
+  src: url(fonts/leaguegothic-regular-webfont.ttf); }
 /* #ffffff */
 html, body {
   background: #ffffff;
@@ -75,7 +78,8 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: stretch; }
+  justify-content: stretch;
+  font-family: 'LeagueGothicRegular', sans-serif; }
 
 /* MAIN PAGE */
 #article-list {
@@ -189,6 +193,8 @@ a:hover {
   background: #ffffff;
   padding: 5px 25px; }
   .ok-btn:hover {
+    cursor: pointer;
+    cursor: hand;
     background: #38a861;
     color: #ffffff; }
 
@@ -200,6 +206,8 @@ a:hover {
   background: #ffffff;
   padding: 5px 25px; }
   .cancel-btn:hover {
+    cursor: pointer;
+    cursor: hand;
     background: #B03B44;
     color: #ffffff; }
 

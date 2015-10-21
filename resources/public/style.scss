@@ -11,6 +11,13 @@
     font-family: RobotoMedium;
     src: url(fonts/Roboto-Medium.ttf);
 }
+@font-face{
+    font-family: LeagueGothicRegular;
+    src: url(fonts/leaguegothic-regular-webfont.ttf);
+}
+
+
+
 
 $light-grey: #a4a4a4;
 $green0: #38a861;
@@ -96,6 +103,7 @@ html,body{
     flex-direction: column;
     align-items: center;
     justify-content: stretch;
+    font-family: 'LeagueGothicRegular', sans-serif;
 }
 
 /* MAIN PAGE */
@@ -231,6 +239,8 @@ a:hover{
     background: $background-color;
     padding: 5px 25px;
     &:hover {
+        cursor: pointer;
+        cursor: hand;
         background: $green0;
         color: $background-color;
     }
@@ -243,6 +253,8 @@ a:hover{
     background: $background-color;
     padding: 5px 25px;
     &:hover {
+        cursor: pointer;
+        cursor: hand;
         background: $red0;
         color: $background-color;
     }
