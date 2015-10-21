@@ -93,7 +93,7 @@
         (if (:admin? app)
           (html
            [:div#compose-container.container
-            [:h1.header "COMPOSE"]
+            [:h2.header "Compose new Article"]
             [:input#compose-title-input.input-cmp
              {:type "text"
               :placeholder "Give a Title"

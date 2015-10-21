@@ -1,21 +1,11 @@
-@font-face {
-    font-family: TitilliumWeb;
-    src: url(fonts/TitilliumWeb-Regular.ttf);
-}
-
-@font-face {
-    font-family: Lato;
-    src: url(fonts/Lato-Regular.ttf);
-}
 @font-face{
-    font-family: RobotoMedium;
+    font-family: Roboto;
     src: url(fonts/Roboto-Medium.ttf);
 }
 @font-face{
-    font-family: LeagueGothicRegular;
-    src: url(fonts/leaguegothic-regular-webfont.ttf);
+    font-family: RobotoCondensed;
+    src: url(fonts/RobotoCondensed-Light.ttf);
 }
-
 
 
 
@@ -30,11 +20,15 @@ html,body{
     background: $background-color;
     height: 100%;
     margin: 0;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: large;
     line-height: 150%;
     padding: 0;
 }
+h1,h2 {
+    font-family: 'RobotoCondensed', sans-serif;
+}
+
 #main-container{
     height: 100%;
     display: flex;
@@ -103,7 +97,6 @@ html,body{
     flex-direction: column;
     align-items: center;
     justify-content: stretch;
-    font-family: 'LeagueGothicRegular', sans-serif;
 }
 
 /* MAIN PAGE */
