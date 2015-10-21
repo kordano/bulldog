@@ -103,6 +103,12 @@ h1,h2 {
 #article-list{
     height: 100%;
 }
+.article-header{
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
 .article-entry{
     display: flex;
     flex-direction: column;

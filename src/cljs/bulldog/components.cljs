@@ -10,9 +10,11 @@
   (om/component
    (html [:li.article-entry
           [:a {:href (str "#/articles/" (:id data))}
-           [:h1.article-title (:title data)]
-           [:small.article-date (.toDateString (:date data))]
+           [:div.article-header
+            [:h1.article-title (:title data)]
+            [:small.article-date (.toDateString (:date data))]]
            [:p.article-abstract (:abstract data)]]])))
+
 
 
 (defn post [data]
