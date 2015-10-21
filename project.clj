@@ -14,7 +14,7 @@
                  [garden "1.3.0-SNAPSHOT"]
                  [prismatic/dommy "1.1.0"]
                  [cljsjs/react "0.13.3-0"]
-                 [markdown-clj "0.9.75"]
+                 [endophile "0.1.2"]
                  [org.omcljs/om "0.9.0"  :exclusions [cljsjs/react]]
                  [sablono "0.3.6"  :exclusions [cljsjs/react]]
                  [jarohen/chord "0.6.0"]

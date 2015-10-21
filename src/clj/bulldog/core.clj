@@ -7,6 +7,8 @@
             [compojure.route :as route]
             [compojure.core :refer [defroutes GET]]
             [clojure.java.io :as io]
+            [endophile.core :refer [mp]]
+            [endophile.hiccup :refer [to-hiccup]]
             [org.httpkit.server :refer [send! with-channel on-close on-receive run-server]]
             [clojure.core.async :refer [go <!!]]))
 
@@ -16,17 +18,17 @@
   {#uuid "2fa45746-fed9-4598-b93c-953f8dbf8aaf"
         {:title "bulldog"
          :date #inst "2015-10-14T08:58:35.036-00:00"
-         :content "This article describes the development process and the internals of a simple blogging engine written in Clojure and Clojurescript."
+         :content (to-hiccup (mp "This article describes the development process and the internals of a simple blogging engine written in Clojure and Clojurescript."))
          :abstract "Simple blogging engine"}
         #uuid "eaf5ff82-3911-4dd6-96be-c283db3283d5"
         {:title "replikativ"
          :date #inst "2015-10-14T08:58:54.451-00:00"
-         :content "In the following paragraphs the motivation and structure of a replication microservice is described in-depth."
+         :content (to-hiccup (mp "In the following paragraphs the motivation and structure of a replication microservice is described in-depth."))
          :abstract "Replication microservice based on Javascript and JVM"}
         #uuid "a6d77d7f-8676-42c5-b57b-f407cc853659"
         {:title "lese"
          :date #inst "2015-10-14T08:59:19.233-00:00"
-         :content "By following the mainstream trend of developing full-stack Javascript we share in the upcoming paragraphs the development process of a basic bookmarking application."
+         :content (to-hiccup (mp "By following the mainstream trend of developing full-stack Javascript we share in the upcoming paragraphs the development process of a basic bookmarking application."))
          :abstract "Bookmarking management and sharing"}})
 
 (defn dispatch 
@@ -42,7 +44,7 @@
             (if (vector? data)
               (doall (map (partial add-article store) data))
               (let [new-id (uuid)]
-                (<!! (-assoc-in store [:articles new-id] data))))
+                (<!! (-assoc-in store [:articles new-id] (update-in data [:content] (comp to-hiccup mp))))))
             (<!! (-get-in store [:articles])))
           (get-init [store]
             (->> (<!! (-get-in store [:articles]))

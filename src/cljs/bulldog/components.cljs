@@ -22,7 +22,7 @@
     [:div.post-view
      [:h2.header (:title data)]
      [:small.post-date (.toDateString (:date data))]
-     [:p.post-content {:dangerouslySetInnerHTML {:__html (md->html (:content data))}}]])))
+     [:p.post-content (:content data)]])))
 
 (defn front-view [app owner]
   (reify
@@ -43,8 +43,9 @@
 (defn post-view [app owner]
   (reify
       om/IRender
-      (render [state]
-        (om/build post (:current-article app)))))
+    (render [state]
+      (println (:current-article app))
+      (om/build post (:current-article app)))))
 
 (defn login-view
   "Creates login view"
@@ -108,24 +109,25 @@
               :placeholder "Compose your article by using Markdown"
               :value (:markdown-text state)
               :on-change #(handle-text-change % owner :markdown-text)}]
-            [:button#compose-discard-btn.cancel-btn
-             {:onClick (fn [e]
-                         (om/set-state! owner :title-text "")
-                         (om/set-state! owner :abstract-text "")
-                         (om/set-state! owner :markdown-text "")
-                         (-> js/document .-location (set! "#/")))}
-             "Discard"]
-            [:button#compose-publish-btn.ok-btn
-             {:onClick
-              #(go
-                 (>! (:socket app)
-                     {:type :add-article :data {:title (om/get-state owner :title-text)
-                                                :date (js/Date.)
-                                                :abstract (om/get-state owner :abstract-text)
-                                                :content (om/get-state owner :markdown-text)}})
-                 (om/set-state! owner :title-text "")
-                 (om/set-state! owner :abstract-text "")
-                 (om/set-state! owner :markdown-text "")
-                 (-> js/document .-location (set! "#/")))}
-             "Publish"]])
+            [:div#compose-btns
+             [:button#compose-discard-btn.cancel-btn
+              {:onClick (fn [e]
+                          (om/set-state! owner :title-text "")
+                          (om/set-state! owner :abstract-text "")
+                          (om/set-state! owner :markdown-text "")
+                          (-> js/document .-location (set! "#/")))}
+              "Discard"]
+             [:button#compose-publish-btn.ok-btn
+              {:onClick
+               #(go
+                  (>! (:socket app)
+                      {:type :add-article :data {:title (om/get-state owner :title-text)
+                                                 :date (js/Date.)
+                                                 :abstract (om/get-state owner :abstract-text)
+                                                 :content (om/get-state owner :markdown-text)}})
+                  (om/set-state! owner :title-text "")
+                  (om/set-state! owner :abstract-text "")
+                  (om/set-state! owner :markdown-text "")
+                  (-> js/document .-location (set! "#/")))}
+              "Publish"]]])
           (om/build login-view app)))))

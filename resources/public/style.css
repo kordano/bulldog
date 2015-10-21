@@ -9,7 +9,7 @@
   src: url(fonts/Roboto-Medium.ttf); }
 /* #ffffff */
 html, body {
-  background: #FBFAF4;
+  background: #ffffff;
   height: 100%;
   margin: 0;
   font-family: 'Lato', sans-serif;
@@ -30,7 +30,7 @@ html, body {
   flex-direction: column;
   justify-content: center;
   margin: 0 28.65% 0 28.65%;
-  height: 100%; }
+  height: 95%; }
 
 /* NAV */
 #navbar {
@@ -59,6 +59,9 @@ html, body {
 
 /* #2aa198 #AC2475 #2E688A   $green0 #B43C50; */
 /* POST */
+.post-view {
+  height: 100%; }
+
 .post-header {
   display: flex;
   flex-direction: column;
@@ -75,6 +78,9 @@ html, body {
   justify-content: stretch; }
 
 /* MAIN PAGE */
+#article-list {
+  height: 100%; }
+
 .article-entry {
   display: flex;
   flex-direction: column;
@@ -140,10 +146,12 @@ a:hover {
     margin: 0; } }
 /* COMPOSE */
 #compose-container {
-  height: 100%; }
+  height: 100%;
+  padding: 0;
+  margin: 0; }
 
 .compose-input {
-  background: #FBFAF4;
+  background: #ffffff;
   border-style: none;
   border-color: inherit;
   -webkit-box-shadow: none;
@@ -154,37 +162,46 @@ a:hover {
     color: #38a861; }
 
 #compose-title-input {
-  font-size: 1.5em; }
+  font-size: 1.5em;
+  margin: 10px 0; }
 
 #compose-abstract-input {
-  font-size: 1.2em; }
+  font-size: 1.2em;
+  margin: 10px 0; }
 
 #compose-markdown-input {
   font-size: 1.2em;
   resize: none;
-  height: 50%; }
+  height: 50%;
+  margin: 10px 0; }
+
+#compose-btns {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between; }
 
 .ok-btn {
   font-size: 1.2em;
   border-radius: 5px;
-  color: white;
-  background: #38a861;
-  border-style: none;
-  border-color: inherit;
+  border: 1px solid #38a861;
+  color: #38a861;
+  background: #ffffff;
   margin: 10px; }
   .ok-btn:hover {
-    background: #62cb88; }
+    background: #38a861;
+    color: #ffffff; }
 
 .cancel-btn {
   font-size: 1.2em;
   border-radius: 5px;
-  color: white;
-  background: #B03B44;
-  border-style: none;
-  border-color: inherit;
+  border: 1px solid #B03B44;
+  color: #B03B44;
+  background: #ffffff;
   margin: 10px; }
   .cancel-btn:hover {
-    background: #cd6a72; }
+    background: #B03B44;
+    color: #ffffff; }
 
 /*Post View*/
 .container {

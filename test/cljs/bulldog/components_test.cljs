@@ -2,6 +2,7 @@
   (:require [cljs.test :refer-macros [deftest is testing]]
             [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
+            [markdown.core :refer [md->html]]
             [cljs-react-test.simulate :as sim]
             [cljs-react-test.utils :as tu]
             [bulldog.components :refer [article front-view post post-view]]
