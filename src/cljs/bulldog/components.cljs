@@ -3,7 +3,6 @@
             [om.dom :as dom :include-macros true]
             [cljs.core.async :refer [<! >!]]
             [bulldog.helpers :refer [handle-text-change open-channel]]
-            [markdown.core :refer [md->html]]
             [sablono.core :as html :refer-macros [html]])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
@@ -64,14 +63,16 @@
           (html
            [:div#login-container.container
             [:h2.header "Login"]
-            [:input {:type "password"
-                     :placeholder "password required"
-                     :value (:login-text state)
-                     :on-key-down (fn [e] (when (= (.-keyCode e) 13)
-                                            (send-login app owner)))
-                     :on-change #(handle-text-change % owner :login-text)}]
-            [:button {:onClick #(send-login app owner)}
-             "Login"]])))))
+            [:input.input-cmp#login-input
+             {:type "password"
+              :placeholder "Type password"
+              :value (:login-text state)
+              :on-key-down (fn [e] (when (= (.-keyCode e) 13)
+                                     (send-login app owner)))
+              :on-change #(handle-text-change % owner :login-text)}]
+            [:div.btn-cmp
+             [:button.cancel-btn {:onClick #(-> js/document .-location (set! "#/"))} "Cancel"]
+             [:button.ok-btn {:onClick #(send-login app owner)} "Login"]]])))))
 
 
 (defn compose-view 
@@ -93,23 +94,23 @@
           (html
            [:div#compose-container.container
             [:h2.header "Compose new Article"]
-            [:input#compose-title-input.compose-input
+            [:input#compose-title-input.input-cmp
              {:type "text"
               :placeholder "Give a Title"
               :value (:title-text state)
               :on-change #(handle-text-change % owner :title-text)}]
-            [:input#compose-abstract-input.compose-input
+            [:input#compose-abstract-input.input-cmp
              {:type "text"
               :placeholder "Write a short overview"
               :value (:abstract-text state)
               :on-change #(handle-text-change % owner :abstract-text)}]
-            [:textarea#compose-markdown-input.compose-input
+            [:textarea#compose-markdown-input.input-cmp
              {:cols 50
               :row 4
               :placeholder "Compose your article by using Markdown"
               :value (:markdown-text state)
               :on-change #(handle-text-change % owner :markdown-text)}]
-            [:div#compose-btns
+            [:div.btn-cmp
              [:button#compose-discard-btn.cancel-btn
               {:onClick (fn [e]
                           (om/set-state! owner :title-text "")

@@ -186,7 +186,7 @@ a:hover{
     padding: 0;
     margin: 0;
 }
-.compose-input {
+.input-cmp {
     background: $background-color;
     border-style: none;
     border-color: inherit;
@@ -216,7 +216,7 @@ a:hover{
     margin: 10px 0;
 }
 
-#compose-btns{
+.btn-cmp{
     width: 100%;
     display: flex;
     flex-flow: row wrap;
@@ -229,7 +229,7 @@ a:hover{
     border: 1px solid $green0;
     color: $green0;
     background: $background-color;
-    margin: 10px;
+    padding: 5px 25px;
     &:hover {
         background: $green0;
         color: $background-color;
@@ -241,7 +241,7 @@ a:hover{
     border: 1px solid $red0;
     color: $red0;
     background: $background-color;
-    margin: 10px;
+    padding: 5px 25px;
     &:hover {
         background: $red0;
         color: $background-color;
@@ -254,4 +254,9 @@ a:hover{
     margin: 0;
     padding: 0;
     height: 100%;
+}
+
+/* Login */
+#login-input {
+    text-align: center;
 }
