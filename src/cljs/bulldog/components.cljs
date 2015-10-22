@@ -1,21 +1,34 @@
 (ns bulldog.components
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [cljs.core.async :refer [<! >!]]
+            [cljs.core.async :refer [<! >! timeout]]
             [bulldog.helpers :refer [handle-text-change open-channel]]
             [sablono.core :as html :refer-macros [html]])
-  (:require-macros [cljs.core.async.macros :refer [go]]))
+  (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
+
+
+(defn time-diff [date]
+  (let [diff (- (.getTime (js/Date.))
+                (.getTime date))
+        minutes (js/Math.floor (/ diff (* 1000 60)))]
+    (cond
+      (< 0 minutes 2) "now"
+      (<= 2 minutes 60) (str minutes " minutes ago")
+      :else
+      (let [days (js/Math.floor (/ minutes (* 60 24)))]
+        (cond
+          (< days 1.0) "today"
+          (<= 1 days 2) "yesterday"
+          :else (str days " days ago"))))))
+
 
 (defn article [data]
-  (om/component
-   (html [:li.article-entry
-          [:a {:href (str "#/articles/" (:id data))}
-           [:div.article-header
-            [:h1.article-title (:title data)]
-            [:small.article-date (.toDateString (:date data))]]
-           [:p.article-abstract (:abstract data)]]])))
-
-
+  (html [:li.article-entry
+         [:a {:href (str "#/articles/" (:id data))}
+          [:div.article-header
+           [:h1.article-title (:title data)]
+           [:small.article-date (:date-diff data)]]
+          [:p.article-abstract (:abstract data)]]]))
 
 (defn post [data]
   (om/component
@@ -28,24 +41,31 @@
 (defn front-view [app owner]
   (reify
       om/IDidMount
-    (did-mount [_]
-      (when-not (:socket app)
-        (open-channel app)))
+      (did-mount [_]
+        (when-not (:socket app)
+          (open-channel app))
+        (go-loop []
+          (om/transact!
+           app :articles
+           (fn [old]
+             (map #(assoc % :date-diff (time-diff (:date %))) old)))
+          (<! (timeout 60000))
+          (recur))
+        )
       om/IRender
       (render [_]
-        (let [recent-articles (->> (:articles app)
-                                   (map (fn [[k v]] (assoc v :id (str k))))
-                                   (sort-by :date >)
-                                   (take 10))]
-          (html
-           [:ul#article-list
-            (map #(om/build article %) recent-articles)])))))
+        (html
+         [:ul#article-list
+          (let [sorted-articles (->> (:articles app)
+                                     vec
+                                     (sort-by :date >)
+                                     (take 7))]
+            (map article sorted-articles))]))))
 
 (defn post-view [app owner]
   (reify
       om/IRender
     (render [state]
-      (println (:current-article app))
       (om/build post (:current-article app)))))
 
 (defn login-view

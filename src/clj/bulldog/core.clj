@@ -34,23 +34,16 @@
 (defn dispatch 
   "Reduces incoming actions"
   [store {:keys [type meta data] :as msg}]
-  (letfn [(set-articles [store data]
-            (<!! (-assoc-in store [:articles]
-                            (if (vector? data)
-                              data
-                              (vector data))))
-            (<!! (-get-in store [:articles])))
-          (add-article [store data]
+  (letfn [(add-article [store data]
             (if (vector? data)
               (doall (map (partial add-article store) data))
               (let [new-id (uuid)]
                 (<!! (-assoc-in store [:articles new-id] (update-in data [:content] (comp to-hiccup mp))))))
-            (<!! (-get-in store [:articles])))
+            (->> (<!! (-get-in store [:articles]))
+                 (map (fn [[k v]] (assoc (dissoc v :content) :id k)))))
           (get-init [store]
             (->> (<!! (-get-in store [:articles]))
-                 (map (fn [[k v]] [k (dissoc v :content)]))
-                 (into {})
-                 (take 7)))
+                 (map (fn [[k v]] (assoc (dissoc v :content) :id k)))))
           (get-article [store data]
             (<!! (-get-in store [:articles (java.util.UUID/fromString data)])))
           (login [store data]
@@ -58,7 +51,6 @@
     (assoc msg :data  
            (case type
              :init  (get-init store)
-             :set-articles (set-articles store data)
              :add-article (add-article store data)
              :get-article (get-article store data)
              :login (login store data)
