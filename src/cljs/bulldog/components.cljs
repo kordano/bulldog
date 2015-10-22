@@ -12,7 +12,7 @@
                 (.getTime date))
         minutes (js/Math.floor (/ diff (* 1000 60)))]
     (cond
-      (< 0 minutes 2) "now"
+      (< minutes 2) "now"
       (<= 2 minutes 60) (str minutes " minutes ago")
       :else
       (let [days (js/Math.floor (/ minutes (* 60 24)))]
@@ -59,7 +59,8 @@
           (let [sorted-articles (->> (:articles app)
                                      vec
                                      (sort-by :date >)
-                                     (take 7))]
+                                     (take 7)
+                                     (map #(assoc % :date-diff (time-diff (:date %)))))]
             (map article sorted-articles))]))))
 
 (defn post-view [app owner]
