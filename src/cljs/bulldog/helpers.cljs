@@ -4,19 +4,15 @@
             [cljs.core.async :refer [<! >!]])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
 
-
-
-
 (defn open-channel
-  ""
+  "Opens channel to server and "
   [app]
   (go
     (let [uri (goog.Uri. js/location.href)
           ssl? (= (.getScheme uri) "https")
           socket-uri (str (if ssl?  "wss://" "ws://")
                           (.getDomain uri)
-                          (when (= (.getDomain uri) "localhost")
-                            (str ":" 8080 #_(.getPort uri)))
+                          (str ":" (if (= (.getDomain uri) "localhost") 8080 (.getPort uri)))
                           "/ws")
           {:keys [ws-channel error]} (<! (ws-ch socket-uri))]
       (if-not error
