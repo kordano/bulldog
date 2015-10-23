@@ -13,7 +13,6 @@
                  [compojure "1.4.0"]
                  [garden "1.3.0-SNAPSHOT"]
                  [prismatic/dommy "1.1.0"]
-                 [cljsjs/react "0.13.3-0"]
                  [endophile "0.1.2"]
                  [org.omcljs/om "0.9.0"  :exclusions [cljsjs/react]]
                  [sablono "0.3.6"  :exclusions [cljsjs/react]]
