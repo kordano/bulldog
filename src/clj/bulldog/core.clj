@@ -92,8 +92,9 @@
     state))
 
 (defn -main [& args]
-  (start-all-services (or (Integer/parseInt (System/getenv "PORT")) 8080) "bamboozle")
-  (println "Server startet at localhost:8080"))
+  (let [port (second args)]
+    (start-all-services (if port (Integer/parseInt port) 8080) "bamboozle")
+    (println "Server startet at localhost:8080")))
 
 (comment
   
@@ -122,6 +123,7 @@
        test-articles
        )
       <!!)
+  bamboozle
   
   (-> state deref :store (-get-in [:articles]) <!! vals)
 
