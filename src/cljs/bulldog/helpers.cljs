@@ -22,7 +22,6 @@
           (go-loop [{{:keys [type meta data] :as message} :message err :error} (<! ws-channel)]
             (if-not err
               (when message
-                (.log js/console message)
                 (case type
                   :init (om/transact! app :articles (fn [_] data))
                   :get-article (om/transact! app :current-article (fn [_] data))

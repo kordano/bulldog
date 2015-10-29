@@ -1,7 +1,7 @@
 (ns bulldog.core
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [bulldog.components :refer [front-view post-view compose-view login-view navbar]]
+            [bulldog.components :refer [front-view post-view compose-view admin-view navbar portfolio-view]]
             [bulldog.helpers :refer [open-channel]]
             [secretary.core :as sec :refer-macros [defroute]]
             [goog.events :as events]
@@ -36,7 +36,8 @@
   (om/root
    (fn [_ _]
      (om/component
-      (dom/h1 #js {:className "header"} "About")))
+      (dom/div #js {:className "container"}
+               (dom/h1 #js {:className "header"} "About"))))
    app-state
    {:target (.getElementById js/document "app")}))
 
@@ -47,6 +48,17 @@
    app-state
    {:target (.getElementById js/document "app")}))
 
+(defroute "/portfolio" []
+  (om/root
+   portfolio-view
+   app-state
+   {:target (.getElementById js/document "app")}))
+
+(defroute "/admin" []
+  (om/root
+   admin-view
+   app-state
+   {:target (.getElementById js/document "app")}))
 
 (defroute "/articles/:id" {:as params}
   (go
