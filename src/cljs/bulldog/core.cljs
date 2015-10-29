@@ -1,7 +1,7 @@
 (ns bulldog.core
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [bulldog.components :refer [front-view post-view compose-view login-view]]
+            [bulldog.components :refer [front-view post-view compose-view login-view navbar]]
             [bulldog.helpers :refer [open-channel]]
             [secretary.core :as sec :refer-macros [defroute]]
             [goog.events :as events]
@@ -20,7 +20,7 @@
   []
   (js/Date.))
 
-(def app-state (atom {}))
+(def app-state (atom {:admin? true}))
 
 (let [h (History.)]
   (goog.events/listen h EventType/NAVIGATE #(-> % .-token sec/dispatch!))
@@ -58,6 +58,11 @@
      app-state
      {:target (.getElementById js/document "app")})))
 
-(-> js/document
+(om/root
+ navbar
+ app-state
+ {:target (.getElementById js/document "nav-container")})
+
+#_(-> js/document
       .-location
       (set! "#/"))

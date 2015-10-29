@@ -1,12 +1,14 @@
 @font-face {
   font-family: Roboto;
   src: url(fonts/Roboto-Medium.ttf); }
+
 @font-face {
   font-family: RobotoCondensed;
   src: url(fonts/RobotoCondensed-Light.ttf); }
+
 /* #ffffff */
 html, body {
-  background: #ffffff;
+  background: white;
   height: 100%;
   margin: 0;
   font-family: 'Roboto', sans-serif;
@@ -157,7 +159,7 @@ a:hover {
   margin: 0; }
 
 .input-cmp {
-  background: #ffffff;
+  background: white;
   border-style: none;
   border-color: inherit;
   -webkit-box-shadow: none;
@@ -192,26 +194,26 @@ a:hover {
   border-radius: 5px;
   border: 1px solid #38a861;
   color: #38a861;
-  background: #ffffff;
+  background: white;
   padding: 5px 25px; }
   .ok-btn:hover {
     cursor: pointer;
     cursor: hand;
     background: #38a861;
-    color: #ffffff; }
+    color: white; }
 
 .cancel-btn {
   font-size: 1.2em;
   border-radius: 5px;
-  border: 1px solid #B03B44;
-  color: #B03B44;
-  background: #ffffff;
+  border: 1px solid #b03b44;
+  color: #b03b44;
+  background: white;
   padding: 5px 25px; }
   .cancel-btn:hover {
     cursor: pointer;
     cursor: hand;
-    background: #B03B44;
-    color: #ffffff; }
+    background: #b03b44;
+    color: white; }
 
 /*Post View*/
 .container {
@@ -222,5 +224,3 @@ a:hover {
 /* Login */
 #login-input {
   text-align: center; }
-
-/*# sourceMappingURL=style.css.map */

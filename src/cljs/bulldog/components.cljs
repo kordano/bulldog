@@ -6,7 +6,6 @@
             [sablono.core :as html :refer-macros [html]])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
 
-
 (defn time-diff [date]
   (let [diff (- (.getTime (js/Date.))
                 (.getTime date))
@@ -20,7 +19,6 @@
           (< days 1.0) "today"
           (<= 1 days 2) "yesterday"
           :else (str days " days ago"))))))
-
 
 (defn article [data]
   (html [:li.article-entry
@@ -50,8 +48,7 @@
            (fn [old]
              (map #(assoc % :date-diff (time-diff (:date %))) old)))
           (<! (timeout 60000))
-          (recur))
-        )
+          (recur)))
       om/IRender
       (render [_]
         (html
@@ -116,15 +113,15 @@
         (if (:admin? app)
           (html
            [:div#compose-container.container
-            [:h2.header "Compose new Article"]
+            [:h2.header "Compose new article"]
             [:input#compose-title-input.input-cmp
              {:type "text"
-              :placeholder "Give a Title"
+              :placeholder "Title"
               :value (:title-text state)
               :on-change #(handle-text-change % owner :title-text)}]
             [:input#compose-abstract-input.input-cmp
              {:type "text"
-              :placeholder "Write a short overview"
+              :placeholder "overview"
               :value (:abstract-text state)
               :on-change #(handle-text-change % owner :abstract-text)}]
             [:textarea#compose-markdown-input.input-cmp
@@ -155,3 +152,18 @@
                   (-> js/document .-location (set! "#/")))}
               "Publish"]]])
           (om/build login-view app)))))
+
+
+(defn navbar
+  "Renders the navbar"
+  [app owner]
+  (reify
+    om/IRender
+    (render [this]
+      (html
+       [:nav#navbar
+        [:a.nav-item {:href "#/"} "Home"]
+        [:a.nav-item {:href "#/compose"} "Compose"]
+        [:a.nav-item {:href "#/about"} "About"]]))))
+
+
