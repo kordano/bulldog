@@ -16,6 +16,8 @@ $red0: #B03B44;
 $btn-color: #ffffff;
 $dark: #0b2222;
 
+:focus {outline:none;}
+::-moz-focus-inner {border:0;}
 
 html,body{
     background: $background-color;
@@ -78,18 +80,18 @@ h1,h2,h3,h4 {
 /* #2aa198 #AC2475 #2E688A   $green0 #B43C50; */
 
 
-/* POST */
-.post-view{
+/* ARTICLE */
+.article-view{
     height: 100%;
 }
-.post-header{
+.article-header{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: stretch;
 }
 
-.post-date{
+.article-date{
     color: #666666
 }
 
@@ -101,21 +103,21 @@ h1,h2,h3,h4 {
 }
 
 /* MAIN PAGE */
-#article-list{
+#front-entry-list{
     height: 100%;
 }
-.article-header{
+.front-entry-header{
     width: 100%;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
 }
-.article-entry{
+.front-entry {
     display: flex;
     flex-direction: column;
     padding: 15px 0 15px 0;
 }
-.article-title{
+.front-entry-title{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -123,12 +125,12 @@ h1,h2,h3,h4 {
     margin: 0;
 }
 
-.article-entry a:link{
+.front-entry a:link{
     text-decoration: none;
     color: #0b2222;
 }
 
-.article-entry a:hover{
+.front-entry a:hover{
     text-decoration: none;
     color: $green0;
 }
@@ -137,14 +139,14 @@ a:hover{
     color: $green0;
 }
 
-.article-entry a:visited {
+.front-entry a:visited {
     color: $light-grey;
 }
 
-.article-entry a:visited:hover {
+.front-entry a:visited:hover {
     color: $green0;
 }
-.article-abstract:hover{
+.front-entry-abstract:hover{
     text-decoration: none;
     color: $green0;
 }
@@ -183,7 +185,7 @@ a:hover{
     }
 
 
-    .post-content{
+    .article-content{
 	margin: 0;
     }
 }
@@ -260,7 +262,7 @@ a:hover{
     }
 }
 
-/*Post View*/
+/*Article View*/
 
 .container {
     margin: 5% 0 0 0;
@@ -309,22 +311,30 @@ a:hover{
     margin: 0;
     padding: 0;
 }
+
 .project{
     list-style: none;
-    border: 1px solid $light-grey;
-    margin: 30px 0 30px 0;
+    margin: 66px 0 66px 0;
     padding: 10px;
+    
     .project-header {
         display: flex;
         margin: 0;
         padding: 0;
         flex-direction: row;
         justify-content: space-between;
+        align-items: center;
         border-bottom: 1px solid $light-grey;
+        h2 {
+            margin: 0;
+            padding: 0;
+        }
         div{
             display: flex;
-            flex-direction: column;
-            margin: 15px 0 15px 0;
+            flex-direction: row;
+            align-content: center;
+            margin: 0;
+            padding: 0;
             a {
                 text-decoration: none;
                 color: $dark;
@@ -336,9 +346,11 @@ a:hover{
             }
         }
     }
+    
     .project-description{
-        margin: 30px 0 30px 0;
+        margin: 15px 0 15px 0;
     }
+    
     .project-technologies{
         display: flex;
         flex-direction: row;
@@ -347,12 +359,25 @@ a:hover{
         flex-wrap: wrap;
         list-style: none;
         justify-content: space-around;
+        
         li{
             font-size: 0.75em;
+            color: lighten($dark, 10%);
             padding: 0 12px 0 12px;
             margin: 5px 0 5px 0;
             border-radius: 5px;
-            border: 1px solid $light-grey;
+            border: 1px solid lighten($light-grey, 10%);
         }
+    }
+}
+
+ 
+.circle-icon {
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    margin: 0 10px 0 10px;
+    &:hover path {
+        fill: $green0;
     }
 }

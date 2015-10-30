@@ -4,6 +4,20 @@
             [cljs.core.async :refer [<! >!]])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
 
+(defn time-diff [date]
+  (let [diff (- (.getTime (js/Date.))
+                (.getTime date))
+        minutes (js/Math.floor (/ diff (* 1000 60)))]
+    (cond
+      (< minutes 2) "now"
+      (<= 2 minutes 60) (str minutes " minutes ago")
+      :else
+      (let [days (js/Math.floor (/ minutes (* 60 24)))]
+        (cond
+          (< days 1.0) "today"
+          (<= 1 days 2) "yesterday"
+          :else (str days " days ago"))))))
+
 (defn open-channel
   "Opens channel to server and "
   [app]

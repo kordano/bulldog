@@ -93,7 +93,7 @@
 
 (defn -main [& args]
   (let [port (second args)]
-    (start-all-services (if port (Integer/parseInt port) 8080) "bamboozle")
+    (start-server (if port (Integer/parseInt port) 8080) "bamboozle")
     (println "Server startet at localhost:8080")))
 
 (comment
