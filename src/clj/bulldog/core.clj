@@ -80,8 +80,8 @@
     (server :timeout 100)
     (swap! state assoc :server nil)))
 
-(defn start-all-services
-  "startAllServices™"
+(defn start-server
+  "start the server"
   [port pw]
   (let [state (atom {:server nil
                      :store (<!! (new-mem-store)) #_(<!! (new-fs-store "data"))})]
@@ -98,7 +98,7 @@
 
 (comment
   
-  (def state (start-all-services 8080 "test"))
+  (def state (start-server 8080 "test"))
   
   #_(def state (atom {}))
   
