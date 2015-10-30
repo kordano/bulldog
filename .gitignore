@@ -12,5 +12,8 @@ pom.xml.asc
 figwheel_server.log
 resources/public/js
 out
-resources/public/.sass-cache
+resources/sass/.sass-cache
+resources/sass/*.css*
 resources/public/style.css.map
+resources/images/*.png
+resources/images/*.xcf
