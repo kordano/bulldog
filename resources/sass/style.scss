@@ -32,6 +32,15 @@ h1,h2,h3,h4 {
     font-family: 'RobotoCondensed', sans-serif;
 }
 
+.container {
+    margin: 6% 0 33% 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 #main-container{
     height: 100%;
     display: flex;
@@ -191,19 +200,15 @@ a:hover{
 }
 
 /* COMPOSE */
-#compose-container{
-    height: 100%;
-    padding: 0;
-    margin: 0;
-}
 .input-cmp {
     background: $background-color;
     border-style: none;
     border-color: inherit;
     -webkit-box-shadow: none;
     box-shadow: none;
+    font-size: 1.2em;
+    margin: 10px 0;
     width: 100%;
-    margin: 2.5%;
     &:focus{
         color: $green0;
     }
@@ -225,50 +230,7 @@ a:hover{
     height: 50%;
     margin: 10px 0;
 }
-
-.btn-cmp{
-    width: 100%;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-}
-
-.ok-btn {
-    font-size: 1.2em;
-    border-radius: 5px;
-    border: 1px solid $green0;
-    color: $green0;
-    background: $background-color;
-    padding: 5px 25px;
-    &:hover {
-        cursor: pointer;
-        cursor: hand;
-        background: $green0;
-        color: $background-color;
-    }
-}
-.cancel-btn {
-    font-size: 1.2em;
-    border-radius: 5px;
-    border: 1px solid $red0;
-    color: $red0;
-    background: $background-color;
-    padding: 5px 25px;
-    &:hover {
-        cursor: pointer;
-        cursor: hand;
-        background: $red0;
-        color: $background-color;
-    }
-}
-
 /*Article View*/
-
-.container {
-    margin: 5% 0 0 0;
-    padding: 0;
-    height: 100%;
-}
 
 /* Login */
 #login-input {
@@ -371,7 +333,36 @@ a:hover{
     }
 }
 
+/* Buttons */
  
+.ok-btn {
+    font-size: 1.2em;
+    border-radius: 5px;
+    border: 1px solid $green0;
+    color: $green0;
+    background: $background-color;
+    &:hover {
+        cursor: pointer;
+        cursor: hand;
+        background: $green0;
+        color: $background-color;
+    }
+}
+
+.cancel-btn {
+    font-size: 1.2em;
+    border-radius: 5px;
+    border: 1px solid $red0;
+    color: $red0;
+    background: $background-color;
+    &:hover {
+        cursor: pointer;
+        cursor: hand;
+        background: $red0;
+        color: $background-color;
+    }
+}
+
 .circle-icon {
     width: 35px;
     height: 35px;
@@ -380,4 +371,31 @@ a:hover{
     &:hover path {
         fill: $green0;
     }
+}
+
+.btn-row {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    .btn-li {
+        padding: 5px 25px;
+    }
+
+}
+
+.btn-list{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .btn-li {
+        width: 50%;
+        padding: 5px 25px;
+        margin: 15px 30px;
+    }
+}
+
+/* Compose Views*/
+.compose-select-container{
+    
 }

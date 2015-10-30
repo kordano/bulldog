@@ -25,6 +25,14 @@ html, body {
 h1, h2, h3, h4 {
   font-family: 'RobotoCondensed', sans-serif; }
 
+.container {
+  margin: 6% 0 33% 0;
+  padding: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; }
+
 #main-container {
   height: 100%;
   display: flex;
@@ -159,19 +167,15 @@ a:hover {
   .article-content {
     margin: 0; } }
 /* COMPOSE */
-#compose-container {
-  height: 100%;
-  padding: 0;
-  margin: 0; }
-
 .input-cmp {
   background: white;
   border-style: none;
   border-color: inherit;
   -webkit-box-shadow: none;
   box-shadow: none;
-  width: 100%;
-  margin: 2.5%; }
+  font-size: 1.2em;
+  margin: 10px 0;
+  width: 100%; }
   .input-cmp:focus {
     color: #38a861; }
 
@@ -189,44 +193,7 @@ a:hover {
   height: 50%;
   margin: 10px 0; }
 
-.btn-cmp {
-  width: 100%;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between; }
-
-.ok-btn {
-  font-size: 1.2em;
-  border-radius: 5px;
-  border: 1px solid #38a861;
-  color: #38a861;
-  background: white;
-  padding: 5px 25px; }
-  .ok-btn:hover {
-    cursor: pointer;
-    cursor: hand;
-    background: #38a861;
-    color: white; }
-
-.cancel-btn {
-  font-size: 1.2em;
-  border-radius: 5px;
-  border: 1px solid #b03b44;
-  color: #b03b44;
-  background: white;
-  padding: 5px 25px; }
-  .cancel-btn:hover {
-    cursor: pointer;
-    cursor: hand;
-    background: #b03b44;
-    color: white; }
-
 /*Article View*/
-.container {
-  margin: 5% 0 0 0;
-  padding: 0;
-  height: 100%; }
-
 /* Login */
 #login-input {
   text-align: center; }
@@ -305,6 +272,31 @@ a:hover {
       border-radius: 5px;
       border: 1px solid #bebebe; }
 
+/* Buttons */
+.ok-btn {
+  font-size: 1.2em;
+  border-radius: 5px;
+  border: 1px solid #38a861;
+  color: #38a861;
+  background: white; }
+  .ok-btn:hover {
+    cursor: pointer;
+    cursor: hand;
+    background: #38a861;
+    color: white; }
+
+.cancel-btn {
+  font-size: 1.2em;
+  border-radius: 5px;
+  border: 1px solid #b03b44;
+  color: #b03b44;
+  background: white; }
+  .cancel-btn:hover {
+    cursor: pointer;
+    cursor: hand;
+    background: #b03b44;
+    color: white; }
+
 .circle-icon {
   width: 35px;
   height: 35px;
@@ -312,3 +304,22 @@ a:hover {
   margin: 0 10px 0 10px; }
   .circle-icon:hover path {
     fill: #38a861; }
+
+.btn-row {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between; }
+  .btn-row .btn-li {
+    padding: 5px 25px; }
+
+.btn-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+  .btn-list .btn-li {
+    width: 50%;
+    padding: 5px 25px;
+    margin: 15px 30px; }
+
+/* Compose Views*/
