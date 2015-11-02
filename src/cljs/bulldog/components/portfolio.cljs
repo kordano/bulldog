@@ -42,7 +42,7 @@
     om/IRender
     (render [this]
       (html
-       [:div.portfolio-container.container
+       [:div.container
         [:h1.header "Portfolio"]
         [:ul.projects-list
          (map project-card

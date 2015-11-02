@@ -31,7 +31,7 @@
       (html
        [:div.container
         [:div
-         [:h2.header "Compose"]
+         [:h1.header "Compose"]
          [:div.btn-list
           [:button.btn-li.ok-btn
            {:onClick #(-> js/document .-location (set! "#/compose/article"))}
@@ -67,7 +67,7 @@
         (html
          [:div.container
           [:div
-           [:h2.header "Compose new project"]
+           [:h1.header "Compose new project"]
            (map
             (partial apply create-input-cmp owner)
             [[title :title "Title"]
@@ -122,7 +122,7 @@
         (html
          [:div.container
           [:div#compose-container
-           [:h2.header "Compose new article"]
+           [:h1.header "Compose new article"]
            (map
             (partial apply create-input-cmp owner)
             [[title :title "Title"]
