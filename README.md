@@ -1,6 +1,6 @@
 # bulldog
 
-Webpresence platform
+Webpresence build in Clojure and ClojureScript, see [demo](http://young-lake-3660.herokuapp.com/#/)
 
 ## Usage
 Start server
