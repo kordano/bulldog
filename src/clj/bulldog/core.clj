@@ -123,7 +123,7 @@
        test-articles
        )
       <!!)
-  bamboozle
+  
   
   (-> state deref :store (-get-in [:articles]) <!! vals)
 

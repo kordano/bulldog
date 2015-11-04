@@ -7,7 +7,7 @@
   font-family: RobotoCondensed;
   src: url(fonts/RobotoCondensed-Light.ttf); }
 
-/* #ffffff */
+/* #2aa198 #AC2475 #2E688A   $green0 #B43C50; */
 :focus {
   outline: none; }
 
@@ -46,7 +46,7 @@ h1, h2, h3, h4 {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 0 28.65% 0 28.65%;
+  margin: 0 10em 0 10em;
   height: 95%; }
 
 /* NAV */
@@ -55,8 +55,7 @@ h1, h2, h3, h4 {
   flex-direction: row;
   padding: 0;
   border-bottom: 1px solid #38a861;
-  justify-content: space-between;
-  margin: 0 19.1% 0px 19.1%; }
+  margin: 0 10em 0 10em; }
 
 .nav-item {
   padding: 20px 15px 20px 15px;
@@ -74,7 +73,6 @@ h1, h2, h3, h4 {
   color: white;
   background: #38a861; }
 
-/* #2aa198 #AC2475 #2E688A   $green0 #B43C50; */
 /* ARTICLE */
 .article-view {
   height: 100%; }
@@ -96,7 +94,8 @@ h1, h2, h3, h4 {
 
 /* MAIN PAGE */
 #front-entry-list {
-  height: 100%; }
+  height: 100%;
+  padding: 0; }
 
 .front-entry-header {
   width: 100%;
@@ -232,8 +231,8 @@ a:hover {
 
 .project {
   list-style: none;
-  margin: 0 0 66px 0;
-  padding: 10px; }
+  margin: 0 0 5em 0;
+  padding: 0.5em; }
   .project .project-header {
     display: flex;
     margin: 0;
@@ -265,14 +264,13 @@ a:hover {
     margin: 0;
     padding: 0;
     flex-wrap: wrap;
-    list-style: none;
-    justify-content: space-around; }
+    list-style: none; }
     .project .project-technologies li {
       font-size: 0.75em;
       color: #174949;
-      padding: 0 12px 0 12px;
-      margin: 5px 0 5px 0;
-      border-radius: 5px;
+      padding: 0 0.5em 0 0.5em;
+      margin: 0.25em 0.125em 0.25em 0.125em;
+      border-radius: 0.25em;
       border: 1px solid #bebebe; }
 
 /* Buttons */
@@ -301,10 +299,10 @@ a:hover {
     color: white; }
 
 .circle-icon {
-  width: 35px;
-  height: 35px;
+  width: 1.5em;
+  height: 1.5em;
   padding: 0;
-  margin: 0 10px 0 10px; }
+  margin: 0 0.5em 0 0.5em; }
   .circle-icon:hover path {
     fill: #38a861; }
 

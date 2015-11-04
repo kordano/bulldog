@@ -1,14 +1,21 @@
 # bulldog
 
-A Clojure library designed to ... well, that part is up to you.
+Webpresence platform
 
 ## Usage
+Start server
 
-FIXME
+```
+lein run
+```
+
+```
+lein with-profile dev figwheel dev
+```
 
 ## License
 
-Copyright © 2015 FIXME
+Copyright © 2015 Konrad Kühne
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.

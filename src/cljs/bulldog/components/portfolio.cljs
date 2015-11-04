@@ -31,7 +31,7 @@
          :viewBox "0 0 350 350"}
         svg/showcase-icon]]]]
     [:p.project-description description]
-    [:ul.project-technologies
+    [:ul.project-technologies [:small "Technologies: "] 
      (map #(vector :li.project-tech %) technologies)]]))
 
 

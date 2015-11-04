@@ -3,8 +3,8 @@
             [om.dom :as dom :include-macros true]
             [bulldog.components.front :refer [front-view]]
             [bulldog.components.compose :refer [compose-view
-                                         compose-article-view
-                                         compose-project-view]]
+                                                compose-article-view
+                                                compose-project-view]]
             [bulldog.components.admin :refer [admin-view]]
             [bulldog.components.article :refer [article-view]]
             [bulldog.components.portfolio :refer [portfolio-view]]
