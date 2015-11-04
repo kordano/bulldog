@@ -17,12 +17,12 @@
                  [org.omcljs/om "0.9.0"  :exclusions [cljsjs/react]]
                  [sablono "0.3.6"  :exclusions [cljsjs/react]]
                  [jarohen/chord "0.6.0"]
+                 [cljsjs/react "0.14.0-1"]
                  [org.clojure/tools.nrepl "0.2.12"]
                  [secretary "1.2.3"]]
   :min-lein-version "2.0.0"
   :profiles {:dev
              {:dependencies [[midje "1.8.1" :exclusions [org.clojure/clojure]]
-                             [midje "1.8.1"]
                              [cljs-react-test "0.1.3-SNAPSHOT"]
                              [cljsjs/react-with-addons "0.14.0-1"]
                              [org.clojure/tools.nrepl "0.2.12"]

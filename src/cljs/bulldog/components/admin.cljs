@@ -1,6 +1,6 @@
 (ns bulldog.components.admin
   (:require [om.core :as om :include-macros true]
-            [bulldog.helpers :refer [open-channel]]
+            [bulldog.helpers :refer [open-channel handle-text-change]]
             [cljs.core.async :refer [>!]]
             [sablono.core :as html :refer-macros [html]])
   (:require-macros [cljs.core.async.macros :refer [go]]))
