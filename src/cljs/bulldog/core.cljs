@@ -94,6 +94,6 @@
  app-state
  {:target (.getElementById js/document "nav-container")})
 
-(-> js/document
+#_(-> js/document
       .-location
       (set! "#/"))

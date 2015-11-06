@@ -53,6 +53,7 @@ h1, h2, h3, h4 {
 #navbar {
   display: flex;
   flex-direction: row;
+  width: 40em;
   padding: 0;
   border-bottom: 1px solid #38a861;
   margin: 0 10em 0 10em; }
@@ -203,11 +204,11 @@ a:hover {
 /* Add button */
 .circle-btn {
   display: table;
-  height: 40px;
-  width: 40px;
+  height: 3em;
+  width: 3em;
   position: absolute;
-  top: 90px;
-  right: 20%;
+  bottom: 5em;
+  right: 10em;
   border-radius: 50%;
   border: 1px solid #38a861;
   color: #38a861;
@@ -319,6 +320,6 @@ a:hover {
   flex-direction: column;
   align-items: center; }
   .btn-list .btn-li {
-    width: 50%;
+    width: 10em;
     padding: 5px 25px;
     margin: 15px 30px; }
