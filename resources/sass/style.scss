@@ -244,13 +244,24 @@ a:hover{
 }
 
 /* Add button */
+.circle-menu{
+    display: -webkit-flex; /* Safari */
+    -webkit-align-items: center; /* Safari 7.0+ */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circle-menu-item {
+    padding: 0.5em 1em;
+    margin: 0.5em 2em;
+}
+
 .circle-btn{
     display: table;
-    height: 3em;
-    width: 3em;
-    position: absolute;
-    bottom: 5em;
-    right: 10em;
+    height: 2em;
+    width: 2em;
+    font-size: 1.5em;
     border-radius: 50%; 
     border: 1px solid $green0;
     color: $green0;
