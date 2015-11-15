@@ -2,7 +2,7 @@
   (:gen-class :main true)
   (:require [konserve.filestore :refer [new-fs-store]]
             [konserve.memory :refer [new-mem-store]]
-            [konserve.protocols :refer [-get-in -assoc-in -update-in -exists?]]
+            [konserve.core :as k]
             [hasch.core :refer [uuid]]
             [compojure.route :as route]
             [compojure.core :refer [defroutes GET]]
@@ -38,16 +38,16 @@
             (if (vector? data)
               (doall (map (partial add-article store) data))
               (let [new-id (uuid)]
-                (<!! (-assoc-in store [:articles new-id] (update-in data [:content] (comp to-hiccup mp))))))
-            (->> (<!! (-get-in store [:articles]))
+                (<!! (k/assoc-in store [:articles new-id] (update-in data [:content] (comp to-hiccup mp))))))
+            (->> (<!! (k/get-in store [:articles]))
                  (map (fn [[k v]] (assoc (dissoc v :content) :id k)))))
           (get-init [store]
-            (->> (<!! (-get-in store [:articles]))
+            (->> (<!! (k/get-in store [:articles]))
                  (map (fn [[k v]] (assoc (dissoc v :content) :id k)))))
           (get-article [store data]
-            (<!! (-get-in store [:articles (java.util.UUID/fromString data)])))
+            (<!! (k/get-in store [:articles (java.util.UUID/fromString data)])))
           (login [store data]
-            (= data (<!! (-get-in store [:admin :password]))))]
+            (= data (<!! (k/get-in store [:admin :password]))))]
     (assoc msg :data  
            (case type
              :init  (get-init store)
@@ -86,8 +86,8 @@
   (let [state (atom {:server nil
                      :store (<!! (new-mem-store)) #_(<!! (new-fs-store "data"))})]
     (create-routes @state)
-    (-> state deref :store (-assoc-in [:articles] test-articles) <!!)
-    (-> state deref :store (-assoc-in [:admin :password] pw) <!!)
+    (-> state deref :store (k/assoc-in [:articles] test-articles) <!!)
+    (-> state deref :store (k/assoc-in [:admin :password] pw) <!!)
     (swap! state assoc :server (run-server #'all-routes {:port port}))
     state))
 
