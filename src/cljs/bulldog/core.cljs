@@ -20,8 +20,6 @@
 
 (enable-console-print!)
 
-(println "Greetings puny humans!")
-
 (defn now
   "Create current date"
   []
