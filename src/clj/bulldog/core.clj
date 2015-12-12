@@ -73,7 +73,8 @@
   #_(def state (atom {}))
   
   (swap! state assoc :store (<!! (new-mem-store)))
-  
+
+
   (stop-server @state)
   
   (-> state

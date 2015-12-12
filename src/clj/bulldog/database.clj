@@ -25,6 +25,7 @@
 (defn now [] (new java.util.Date))
 
 (defn init-db [state password]
+  "Initial database on server"
   (-> state deref :store (k/assoc-in [:articles] test-articles) <!!)
   (-> state deref :store (k/assoc-in [:admin :password] password) <!!))
 
@@ -33,18 +34,19 @@
        (map (fn [[k v]] (assoc (dissoc v :content) :id k)))))
 
 (defn add-article
-  [store data]
-  (if (vector? data)
-    (doall (map (partial add-article store) data))
+  [store article]
+  (if (vector? article)
+    (doall (map (partial add-article store) article))
     (let [new-id (uuid)]
-      (<!! (k/assoc-in store [:articles new-id] (update-in data [:content] (comp to-hiccup mp))))))
+      (<!! (k/assoc-in store [:articles new-id] (update-in article [:content] (comp to-hiccup mp))))))
   (->> (<!! (k/get-in store [:articles]))
        (map (fn [[k v]] (assoc (dissoc v :content) :id k)))))
 
 (defn get-article
-  [store data]
-  (<!! (k/get-in store [:articles (java.util.UUID/fromString data)])))
+  [store article-id]
+  (<!! (k/get-in store [:articles (java.util.UUID/fromString article-id)])))
 
-(defn login [store data]
-  (= data (<!! (k/get-in store [:admin :password]))))
+(defn login [store admin-password]
+  (= admin-password
+     (<!! (k/get-in store [:admin :password]))))
 
