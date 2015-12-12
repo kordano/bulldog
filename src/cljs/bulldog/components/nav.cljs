@@ -11,7 +11,7 @@
       (html
        [:nav#navbar
         [:a.nav-item {:href "#/"} "Home"]
-        [:a.nav-item {:href "#/portfolio"} "Portfolio"]
+        #_[:a.nav-item {:href "#/portfolio"} "Portfolio"]
         [:a.nav-item {:href "#/about"} "About"]]))))
 
 

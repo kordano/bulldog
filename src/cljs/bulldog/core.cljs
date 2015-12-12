@@ -8,7 +8,6 @@
             [bulldog.components.admin :refer [admin-view]]
             [bulldog.components.article :refer [article-view]]
             [bulldog.components.portfolio :refer [portfolio-view]]
-            [bulldog.components.nav :refer [navbar]]
             [bulldog.helpers :refer [open-channel]]
             [secretary.core :as sec :refer-macros [defroute]]
             [goog.events :as events]
@@ -87,10 +86,6 @@
      app-state
      {:target (.getElementById js/document "app")})))
 
-(om/root
- navbar
- app-state
- {:target (.getElementById js/document "nav-container")})
 
 #_(-> js/document
       .-location

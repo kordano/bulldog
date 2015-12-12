@@ -16,7 +16,8 @@
        {:href sourcecode
         :target "_blank"
         :title "Show Sourcecode"}
-       [:svg.circle-icon
+      " source "
+       #_[:svg.circle-icon
         {:width "100%"
          :height "100%"
          :viewBox "0 0 438.549 438.549"}
@@ -25,7 +26,8 @@
        {:href showcase
         :target "_blank"
         :title "Show Application"}
-       [:svg.circle-icon
+       " demo "
+       #_[:svg.circle-icon
         {:width "100%"
          :height "100%"
          :viewBox "0 0 350 350"}
