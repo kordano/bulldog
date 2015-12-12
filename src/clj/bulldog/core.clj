@@ -1,68 +1,39 @@
 (ns bulldog.core
   (:gen-class :main true)
-  (:require [konserve.filestore :refer [new-fs-store]]
-            [konserve.memory :refer [new-mem-store]]
-            [konserve.core :as k]
-            [hasch.core :refer [uuid]]
+  (:require [bulldog.database :refer [add-article init-db get-article get-init login]]
             [compojure.route :as route]
             [compojure.core :refer [defroutes GET]]
             [clojure.java.io :as io]
             [endophile.core :refer [mp]]
+            [konserve.memory :refer [new-mem-store]]
             [endophile.hiccup :refer [to-hiccup]]
             [org.httpkit.server :refer [send! with-channel on-close on-receive run-server]]
             [clojure.core.async :refer [go <!!]]))
 
-(defn now [] (new java.util.Date))
-
-(def test-articles
-  {#uuid "2fa45746-fed9-4598-b93c-953f8dbf8aaf"
-        {:title "bulldog"
-         :date #inst "2015-10-14T08:58:35.036-00:00"
-         :content (to-hiccup (mp "This article describes the development process and the internals of a simple blogging engine written in Clojure and Clojurescript."))
-         :abstract "Simple blogging engine"}
-        #uuid "eaf5ff82-3911-4dd6-96be-c283db3283d5"
-        {:title "replikativ"
-         :date #inst "2015-10-14T08:58:54.451-00:00"
-         :content (to-hiccup (mp "In the following paragraphs the motivation and structure of a replication microservice is described in-depth."))
-         :abstract "Replication microservice based on Javascript and JVM"}
-        #uuid "a6d77d7f-8676-42c5-b57b-f407cc853659"
-        {:title "lese"
-         :date #inst "2015-10-14T08:59:19.233-00:00"
-         :content (to-hiccup (mp "By following the mainstream trend of developing full-stack Javascript we share in the upcoming paragraphs the development process of a basic bookmarking application."))
-         :abstract "Bookmarking management and sharing"}})
 
 (defn dispatch 
   "Reduces incoming actions"
   [store {:keys [type meta data] :as msg}]
-  (letfn [(add-article [store data]
-            (if (vector? data)
-              (doall (map (partial add-article store) data))
-              (let [new-id (uuid)]
-                (<!! (k/assoc-in store [:articles new-id] (update-in data [:content] (comp to-hiccup mp))))))
-            (->> (<!! (k/get-in store [:articles]))
-                 (map (fn [[k v]] (assoc (dissoc v :content) :id k)))))
-          (get-init [store]
-            (->> (<!! (k/get-in store [:articles]))
-                 (map (fn [[k v]] (assoc (dissoc v :content) :id k)))))
-          (get-article [store data]
-            (<!! (k/get-in store [:articles (java.util.UUID/fromString data)])))
-          (login [store data]
-            (= data (<!! (k/get-in store [:admin :password]))))]
-    (assoc msg :data  
-           (case type
-             :init  (get-init store)
-             :add-article (add-article store data)
-             :get-article (get-article store data)
-             :login (login store data)
-             :unrelated))))
+  (assoc msg :data  
+         (case type
+           :init  (get-init store)
+           :add-article (add-article store data)
+           :get-article (get-article store data)
+           :login (login store data)
+           :unrelated)))
 
 (defn create-socket-handler [state]
+  "Socket dispatcher"
   (fn [request]
     (with-channel request channel
-      (on-close channel (fn [status]))
-      (on-receive channel (fn [data]
-                            (let [action (read-string data)]
-                              (send! channel (str (dispatch (:store state) action)))))))))
+      (on-close channel
+                (fn [status]
+                  (println (str "Channel closed:" status))))
+      (on-receive channel
+                  (fn [data]
+                    (let [action (read-string data)
+                          response (str (dispatch (:store state) action))]
+                      (send! channel response)))))))
 
 (defn create-routes
   "Create routes from server state"
@@ -74,7 +45,7 @@
     (route/not-found "<h1>Page not found</h1>")))
 
 (defn stop-server
-  "stops only server"
+  "Stops server"
   [{:keys [server] :as state}]
   (when-not (nil? server)
     (server :timeout 100)
@@ -86,8 +57,7 @@
   (let [state (atom {:server nil
                      :store (<!! (new-mem-store)) #_(<!! (new-fs-store "data"))})]
     (create-routes @state)
-    (-> state deref :store (k/assoc-in [:articles] test-articles) <!!)
-    (-> state deref :store (k/assoc-in [:admin :password] pw) <!!)
+    (init-db state pw)
     (swap! state assoc :server (run-server #'all-routes {:port port}))
     state))
 
