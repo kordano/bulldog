@@ -30,7 +30,6 @@
   (goog.events/listen h EventType/NAVIGATE #(-> % .-token sec/dispatch!))
   (doto h (.setEnabled true)))
 
-
 (defroute "/" []
   (om/root
    front-view
@@ -86,7 +85,4 @@
      app-state
      {:target (.getElementById js/document "app")})))
 
-
-#_(-> js/document
-      .-location
-      (set! "#/"))
+(-> js/document .-location (set! "#/"))

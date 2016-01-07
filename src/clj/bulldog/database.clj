@@ -1,6 +1,8 @@
 (ns bulldog.database
   (:require [hasch.core :refer [uuid]]
             [endophile.core :refer [mp]]
+            [konserve.memory :refer [new-mem-store]]
+            [konserve.filestore :refer [new-fs-store]]
             [endophile.hiccup :refer [to-hiccup]]
             [clojure.core.async :refer [go <!!]]
             [konserve.core :as k]))
@@ -50,3 +52,7 @@
   (= admin-password
      (<!! (k/get-in store [:admin :password]))))
 
+
+(comment
+  
+  )

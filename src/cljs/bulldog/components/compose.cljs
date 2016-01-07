@@ -6,7 +6,9 @@
             [sablono.core :as html :refer-macros [html]])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
-(defn create-btn-row [cancel-fn ok-fn]
+(defn create-btn-row
+  "Creates interaction button row"
+  [cancel-fn ok-fn]
   [:div.btn-row
    [:button#compose-discard-btn.cancel-btn.btn-li
     {:onClick cancel-fn}
@@ -15,7 +17,9 @@
     {:onClick ok-fn}
     "Publish"]])
 
-(defn create-input-cmp [owner value text-key placeholder]
+(defn create-input-cmp
+  "Create input components based on given value, text and placeholder"
+  [owner value text-key placeholder]
   [:input.input-cmp
    {:type "text"
     :value value
@@ -83,13 +87,17 @@
         (fn [e] (-> js/document .-location (set! "#/")))))))
 
 
-(defn cancel-article-view [owner e]
+(defn cancel-article-view
+  "Return to compose view on cancel"
+  [owner e]
   (om/set-state! owner :title "")
   (om/set-state! owner :abstract "")
   (om/set-state! owner :markdown "")
   (-> js/document .-location (set! "#/compose")))
 
-(defn send-article-view [owner app e]
+(defn send-article-view
+  "Format and send article to server"
+  [owner app event]
   (go
     (>! (:socket app)
         {:type :add-article
@@ -137,4 +145,3 @@
            (partial cancel-article-view owner)
            (partial (partial send-article-view owner) app))])
         (-> js/document .-location (set! "#/admin"))))))
-

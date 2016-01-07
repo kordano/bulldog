@@ -57,7 +57,7 @@
   (let [state (atom {:server nil
                      :store (<!! (new-mem-store)) #_(<!! (new-fs-store "data"))})]
     (create-routes @state)
-    (init-db state pw)
+    #_(init-db state pw)
     (swap! state assoc :server (run-server #'all-routes {:port port}))
     state))
 
@@ -76,28 +76,7 @@
 
 
   (stop-server @state)
+ 
   
-  (-> state
-      deref
-      :store
-      (-assoc-in
-       [:admin :password]
-       "test"
-       )
-      <!!)
-  
-  (-> state
-      deref
-      :store
-      (-assoc-in
-       [:articles]
-       test-articles
-       )
-      <!!)
-  
-  
-  (-> state deref :store (-get-in [:articles]) <!! vals)
-
-  (-> state deref :store (-get-in [:admin]) <!!)
  
   )
