@@ -1,6 +1,7 @@
 (ns bulldog.core
   (:require [goog.dom :as gdom]
             [sablono.core :as html :refer-macros [html]]
+            [secretary.core :as secretary :refer-macros [defroute]]
             [om.next :as om :refer-macros [defui]]
             [om.dom :as dom]))
 
@@ -38,13 +39,16 @@
                :content [[:p "By following the mainstream trend of developing full-stack Javascript we share in the upcoming paragraphs the development process of a basic bookmarking application."]]
                :abstract "Bookmarking management and sharing"}]})
 
+(defroute "/articles/:id" {:as params}
+  (js/console.log (str "Article ID: " (:id params))))
+
 (defui Article
   Object
   (render [this]
-    (let [{:keys [title abstract date-diff]} (om/props this)]
+    (let [{:keys [title abstract date-diff id]} (om/props this)]
       (html
        [:li
-        [:a {:href "#"}
+        [:a {:href (str "#/articles/" id)}
          [:div [:h3 title] [:span date-diff]]
          [:p abstract]]]))))
 
