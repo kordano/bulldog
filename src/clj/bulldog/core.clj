@@ -5,15 +5,15 @@
             [compojure.core :refer [defroutes GET]]
             [clojure.java.io :as io]
             [endophile.core :refer [mp]]
-            [konserve.memory :refer [new-mem-store]]
             [endophile.hiccup :refer [to-hiccup]]
+            [konserve.memory :refer [new-mem-store]]
+            [hasch.core :refer [uuid]]
             [org.httpkit.server :refer [send! with-channel on-close on-receive run-server]]
             [clojure.core.async :refer [go <!!]]))
 
-
 (defn dispatch 
-  "Reduces incoming actions"
   [store {:keys [type meta data] :as msg}]
+  "Reduces incoming actions"
   (assoc msg :data  
          (case type
            :init  (get-init store)
@@ -57,7 +57,7 @@
   (let [state (atom {:server nil
                      :store (<!! (new-mem-store)) #_(<!! (new-fs-store "data"))})]
     (create-routes @state)
-    #_(init-db state pw)
+    (init-db state pw)
     (swap! state assoc :server (run-server #'all-routes {:port port}))
     state))
 
@@ -74,6 +74,7 @@
   
   (swap! state assoc :store (<!! (new-mem-store)))
 
+  (-> state deref :store)
 
   (stop-server @state)
  

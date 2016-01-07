@@ -7,7 +7,7 @@
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.122"]
                  [org.clojure/core.async "0.2.374"]
-                 [io.replikativ/konserve "0.3.0"]
+                 [io.replikativ/konserve "0.3.1"]
                  [net.polyc0l0r/hasch "0.2.3"]
                  [http-kit "2.1.19"]
                  [compojure "1.4.0"]
