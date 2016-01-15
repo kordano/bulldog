@@ -1,14 +1,21 @@
 (ns bulldog.core
   (:require [goog.dom :as gdom]
+            [goog.events :as events]
+            [goog.history.EventType :as EventType]
             [sablono.core :as html :refer-macros [html]]
             [secretary.core :as secretary :refer-macros [defroute]]
             [om.next :as om :refer-macros [defui]]
+            [om.dom :as dom]
             [bulldog.parser :refer [read]]
-            [om.dom :as dom]))
+            [bulldog.components :refer [Frontpage]])
+  (:import goog.History))
 
-(def reconciler
-  (om/reconciler
-   {:state (atom {:articles [{:title "bulldog"
+(let [h (History.)]
+  (goog.events/listen h EventType/NAVIGATE #(secretary/dispatch! (.-token %)))
+  (doto h (.setEnabled true)))
+
+(def initial-state
+  (atom {:articles [{:title "bulldog"
                               :id #uuid "2fa45746-fed9-4598-b93c-953f8dbf8aaf"
                               :date #inst "2015-10-14T08:58:35.036-00:00"
                               :content [[:p "This article describes the development process and the internals of a simple blogging engine written in Clojure and Clojurescript."]]
@@ -23,44 +30,21 @@
                               :date #inst "2015-10-14T08:59:19.233-00:00"
                               :content [[:p "By following the mainstream trend of developing full-stack Javascript we share in the upcoming paragraphs the development process of a basic bookmarking application."]]
                               :abstract "Bookmarking management and sharing"}]
-                  :content/title "Welcome"})
-    :parser (om/parser {:read read})}))
+                  :content/title "Welcome"}))
 
+(def reconciler
+  (om/reconciler
+   {:state initial-state
+    :parser (om/parser {:read read})}))
 
 (enable-console-print!)
 
+(defroute "/" []
+  (om/add-root!
+   reconciler
+   Frontpage
+   (gdom/getElement "app")))
+
 (defroute "/articles/:id" {:as params}
-  (js/console.log (str "Article ID: " (:id params))))
+  (println (str "Article ID: " (:id params))))
 
-(defui Article
-  Object
-  (render [this]
-    (let [{:keys [title abstract date-diff id]} (om/props this)]
-      (html
-       [:li
-        [:a {:href (str "#/articles/" id)}
-         [:div [:h3 title] [:span date-diff]]
-         [:p abstract]]]))))
-
-(def article (om/factory Article))
-
-(defui Frontpage
-  static om/IQuery
-  (query [this]
-    '[(:articles/recent nil) (:content/title nil)])
-  Object
-  (render [this]
-    (let [{:keys [:articles/recent :content/title] :as props} (om/props this)]
-      (println "Rendering Frontpage: " props)
-      (html
-       [:div
-        [:h2 title]
-        [:h4 "Recent Articles"]
-        [:ul (map article recent)]]))))
-
-(def frontpage (om/factory Frontpage))
-
-(om/add-root!
- reconciler
- Frontpage
- (gdom/getElement "app"))
