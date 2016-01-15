@@ -24,7 +24,6 @@
       {:value value}
       {:value :not-found})))
 
-
 (defmethod read :articles/recent
   [{:keys [state] :as env} key {:keys [type]}]
   {:value (->> (:articles @state)

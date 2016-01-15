@@ -4,7 +4,22 @@
             [sablono.core :as html :refer-macros [html]]
             [om.next :as om :refer-macros [defui]]))
 
-(defui Article
+
+(defui ArticlePage
+  om/IQuery
+  (query [this]
+    '[(:content/article nil)])
+  Object
+  (render [this]
+    (let [{:keys [:content/article]} (om/props this)
+          {:keys [title author content]} article]
+      (html
+       [:div
+        [:h2 title]
+        [:p author]
+        content]))))
+
+(defui FrontpageArticle
   Object
   (render [this]
     (let [{:keys [title abstract date-diff id]} (om/props this)]
@@ -14,7 +29,7 @@
          [:div [:h3 title] [:span date-diff]]
          [:p abstract]]]))))
 
-(def article (om/factory Article))
+(def frontpage-article (om/factory FrontpageArticle))
 
 (defui Frontpage
   static om/IQuery
@@ -27,4 +42,4 @@
        [:div
         [:h2 title]
         [:h4 "Recent Articles"]
-        [:ul (map article recent)]]))))
+        [:ul (map frontpage-article recent)]]))))
