@@ -1,6 +1,6 @@
 # bulldog
 
-Webpresence build in Clojure and ClojureScript, see [demo](http://young-lake-3660.herokuapp.com/#/)
+Blogging engine build in Clojure and ClojureScript.
 
 ## Usage
 Start server
@@ -9,13 +9,14 @@ Start server
 lein run
 ```
 
+Start figwheel
 ```
-lein with-profile dev figwheel dev
+./start.sh
 ```
 
 ## License
 
-Copyright © 2015 Konrad Kühne
+Copyright © 2015-2016 Konrad Kühne
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
