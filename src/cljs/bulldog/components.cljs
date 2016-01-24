@@ -5,6 +5,19 @@
             [om.next :as om :refer-macros [defui]]))
 
 
+(defui EditorPage
+  Object
+  (render [this]
+    (html
+     [:div
+      [:input {:placeholder "What's the title?"}]
+      [:input {:placeholder "Give a short introduction"}]
+      [:input {:placeholder "Write your article"}]
+      [:div
+       [:button "Cancel"]
+       [:button "Publish"]]])))
+
+
 (defui ArticlePage
   om/IQuery
   (query [this]

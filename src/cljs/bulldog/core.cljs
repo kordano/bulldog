@@ -7,7 +7,7 @@
             [om.next :as om :refer-macros [defui]]
             [om.dom :as dom]
             [bulldog.parser :refer [read]]
-            [bulldog.components :refer [Frontpage ArticlePage]])
+            [bulldog.components :refer [Frontpage ArticlePage EditorPage]])
   (:import goog.History))
 
 (let [h (History.)]
@@ -55,6 +55,13 @@
    reconciler
    Frontpage
    (gdom/getElement "app")))
+
+(defroute "/editor" []
+  (om/add-root!
+   reconciler
+   EditorPage
+   (gdom/getElement "app")))
+
 
 (defroute "/articles/:id" {:as params}
   (om/add-root!
