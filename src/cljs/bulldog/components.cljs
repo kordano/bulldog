@@ -5,18 +5,43 @@
             [om.next :as om :refer-macros [defui]]))
 
 
+(defn onChange
+  "Creates input callpack"
+  [value component]
+  (fn [event]
+    (om/set-state!
+     component
+     (assoc
+      (om/get-state component)
+      value
+      (.. event -target -value)))))
+
+
+
 (defui EditorPage
   Object
   (render [this]
-    (html
-     [:div
-      [:input {:placeholder "What's the title?"}]
-      [:input {:placeholder "Give a short introduction"}]
-      [:input {:placeholder "Write your article"}]
-      [:div
-       [:button "Cancel"]
-       [:button "Publish"]]])))
-
+    (let [{:keys [title abstract article] :as local} (om/get-state this)]
+      (html
+       [:div
+        [:input
+         {:placeholder "What's the title?"
+          :type :text
+          :value title
+          :onChange (onChange :title this)}]
+        [:input
+         {:placeholder "Give a short introduction"
+          :type :text
+          :value abstract
+          :onChange (onChange :abstract this)}]
+        [:input
+         {:placeholder "Write your article"
+          :type :text
+          :value article
+          :onChange (onChange :article this)}]
+        [:div
+         [:button {:onClick (fn [e] (-> js/document .-location (set! "#/")))} "Cancel" ]
+         [:button "Publish"]]]))))
 
 (defui ArticlePage
   om/IQuery
