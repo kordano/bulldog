@@ -1,6 +1,7 @@
 (ns bulldog.components
   (:require [goog.dom :as gdom]
             [om.dom :as dom]
+            [bulldog.replica :refer [commit-stuff]]
             [sablono.core :as html :refer-macros [html]]
             [om.next :as om :refer-macros [defui]]))
 
@@ -79,5 +80,6 @@
       (html
        [:div
         [:h2 title]
+        [:button {:onClick commit-stuff} "Fetch replica"]
         [:h4 "Recent Articles"]
         [:ul (map frontpage-article recent)]]))))
