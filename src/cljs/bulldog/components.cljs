@@ -6,7 +6,7 @@
 
 
 (defn onChange
-  "Creates input callpack"
+  "Creates input callback"
   [value component]
   (fn [event]
     (om/set-state!
