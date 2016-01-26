@@ -75,6 +75,17 @@
 
   (<?? (s/commit! stage {"eve@replikativ.io" #{cdvcs-id}}))
 
+  (<?? (s/transact stage ["eve@replikativ.io" cdvcs-id]
+                   '(fn [_ new] (if (set? new) new #{new}))
+                   {:author "konny"
+                    :title "World domination"
+                    :id #uuid "3e7f5bf0-f821-461d-b446-629d8411e47e"
+                    :abstract "Time to kill all"
+                    :content "blablablablabla"}))
+
+  (<?? (s/commit! stage {"eve@replikativ.io" #{cdvcs-id}}))
+
+
   (<?? (head-value client-store
                    eval-fns
                    (:state (get @(:state client-store) ["eve@replikativ.io" cdvcs-id]))))

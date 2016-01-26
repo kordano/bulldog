@@ -1,7 +1,7 @@
 (ns bulldog.components
   (:require [goog.dom :as gdom]
             [om.dom :as dom]
-            [bulldog.replica :refer [commit-stuff]]
+            [bulldog.replica :refer [commit-stuff check-value]]
             [sablono.core :as html :refer-macros [html]]
             [om.next :as om :refer-macros [defui]]))
 
@@ -80,6 +80,7 @@
       (html
        [:div
         [:h2 title]
-        [:button {:onClick commit-stuff} "Fetch replica"]
+        [:button {:onClick commit-stuff} "Subscribe replica"]
+        [:button {:onClick check-value} "Check value"]
         [:h4 "Recent Articles"]
         [:ul (map frontpage-article recent)]]))))

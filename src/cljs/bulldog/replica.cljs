@@ -38,10 +38,17 @@
       :error-chan err-ch
       :peer local-peer})))
 
+
+
+
+
 (defn commit-stuff []
   (go-try
    (def client-state (<? (start-local)))
    (<? (connect! (:stage client-state) uri))
+   (<? (subscribe-crdts! (:stage client-state) {"eve@replikativ.io" #{cdvcs-id}}))
+   (println
+    )
    
    #_(<? (s/transact (:stage client-state)
                    ["eve@replikativ.io" cdvcs-id]
@@ -53,4 +60,16 @@
                     :content "foo bar bar foo foo"}))
    #_(<? (s/commit! (:stage client-state) {"eve@replikativ.io" #{cdvcs-id}}))))
 
-
+(defn check-value
+  ""
+  []
+  (go-try
+   (println
+    (<?
+     (head-value
+      (:store client-state)
+      eval-fns
+      (:state
+       (get
+        @(:state (:store client-state))
+        ["eve@replikativ.io" cdvcs-id])))))))
