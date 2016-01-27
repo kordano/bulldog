@@ -42,7 +42,7 @@
 
 
 
-(defn commit-stuff []
+(defn subscribe-it []
   (go-try
    (def client-state (<? (start-local)))
    (<? (connect! (:stage client-state) uri))
@@ -60,7 +60,7 @@
                     :content "foo bar bar foo foo"}))
    #_(<? (s/commit! (:stage client-state) {"eve@replikativ.io" #{cdvcs-id}}))))
 
-(defn check-value
+(defn check-it
   ""
   []
   (go-try
@@ -73,3 +73,18 @@
        (get
         @(:state (:store client-state))
         ["eve@replikativ.io" cdvcs-id])))))))
+
+
+(defn commit-it
+  ""
+  []
+  (go-try
+   (<? (s/transact (:stage client-state)
+                   ["eve@replikativ.io" cdvcs-id]
+                   'conj
+                   {:author "baz"
+                    :title "qux"
+                    :id #uuid "ad707027-38a7-4c2a-99c6-86fbcf5b6082"
+                    :abstract "bar baz qux"
+                    :content "foo bar bar foo foo"}))
+   (<? (s/commit! (:stage client-state) {"eve@replikativ.io" #{cdvcs-id}}))))
